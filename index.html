@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS INFINITY CORPORATION | Sistema de Consultorio Médico</title>
+<style>
+:root{--navy:#0a1a38;--navy2:#12285a;--teal:#00b3a4;--teal2:#0fd3c0;--blue:#2563eb;--bg:#f2f5fa;--card:#fff;--txt:#17233c;--mut:#6b7a96;--line:#e3e9f3;--ok:#16a34a;--warn:#f59e0b;--bad:#dc2626;--vio:#7c3aed}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:14px}
+.app{display:flex;min-height:100vh}
+aside{width:272px;background:linear-gradient(180deg,var(--navy),#071228);color:#cfd9ee;position:fixed;top:0;bottom:0;overflow-y:auto;z-index:20;transition:transform .25s}
+aside::-webkit-scrollbar{width:6px}aside::-webkit-scrollbar-thumb{background:#2a3d6b;border-radius:3px}
+.brand{padding:18px 18px 14px;border-bottom:1px solid #1f3266;display:flex;gap:12px;align-items:center}
+.brand svg{flex:none}
+.brand b{display:block;color:#fff;letter-spacing:.14em;font-size:13px;line-height:1.15}
+.brand small{color:var(--teal2);font-size:10px;letter-spacing:.2em}
+.nav-area{padding:14px 18px 6px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7f93bd;font-weight:700}
+.nav a{display:flex;gap:9px;align-items:center;padding:8px 18px;color:#cfd9ee;text-decoration:none;cursor:pointer;font-size:13px;border-left:3px solid transparent}
+.nav a:hover{background:#12285a}
+.nav a.on{background:#12285a;border-left-color:var(--teal2);color:#fff}
+.nav a i{font-style:normal;font-size:10px;font-weight:700;background:#1f3266;border-radius:5px;padding:2px 5px;min-width:34px;text-align:center;color:var(--teal2)}
+.nav a.ai i{background:#3b2a78;color:#d6c7ff}
+main{margin-left:272px;flex:1;min-width:0}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:12px 26px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10}
+.top h1{font-size:17px;flex:1}
+.top h1 small{display:block;font-weight:400;color:var(--mut);font-size:12px;margin-top:2px}
+.burger{display:none;background:var(--navy);color:#fff;border:0;border-radius:8px;padding:8px 11px;font-size:16px;cursor:pointer}
+select,input,textarea{font:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;color:var(--txt);outline:none}
+select:focus,input:focus,textarea:focus{border-color:var(--teal)}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+#view{padding:24px 26px 50px}
+.hero{background:linear-gradient(120deg,var(--navy),var(--navy2) 60%,#0b5e7a);color:#fff;border-radius:16px;padding:22px 26px;margin-bottom:20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.hero h2{font-size:20px}.hero p{color:#bfd0f0;margin-top:5px;max-width:760px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#e8f0ff;font-size:11.5px;padding:4px 10px;border-radius:20px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g21{grid-template-columns:2fr 1fr}.g12{grid-template-columns:1fr 2fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(10,26,56,.04)}
+.card h3{font-size:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.kl{color:var(--mut);font-size:12px}.kv{font-size:26px;font-weight:700;margin:4px 0}.kd{font-size:12px;color:var(--mut)}.kd.up{color:var(--ok)}.kd.down{color:var(--bad)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid #eef2f8;vertical-align:middle}
+tr:hover td{background:#fafcff}
+.tw{overflow-x:auto}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.badge.b{background:#e0ecff;color:#1d4ed8}.badge.g{background:#dcfce7;color:#15803d}.badge.y{background:#fef3c7;color:#b45309}.badge.r{background:#fee2e2;color:#b91c1c}.badge.p{background:#ede9fe;color:#6d28d9}.badge.t{background:#ccfbf1;color:#0f766e}.badge.n{background:#eef2f8;color:#475569}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:9px 15px;font-weight:600;cursor:pointer;font-size:13px}
+.btn:hover{filter:brightness(.95)}.btn.sec{background:#eaf0fb;color:var(--navy2)}.btn.dk{background:var(--navy)}.btn.sm{padding:5px 10px;font-size:12px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:8px 14px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;font-weight:600;font-size:13px}
+.tab.on{color:var(--navy2);border-bottom-color:var(--teal)}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}.field label{font-size:11.5px;color:var(--mut);font-weight:600}
+.pt-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.pt-head .avatar{width:56px;height:56px;font-size:19px}
+.kv2{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.kv2 div{background:#f6f9fe;border-radius:10px;padding:9px 11px}.kv2 small{display:block;color:var(--mut);font-size:11px}.kv2 b{font-size:13px}
+.tl{border-left:2px solid var(--line);margin-left:6px}
+.tl div{position:relative;padding:0 0 16px 18px}
+.tl div:before{content:"";position:absolute;left:-6px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--teal);border:2px solid #fff;box-shadow:0 0 0 1px var(--teal)}
+.tl small{color:var(--mut)}
+.week{display:grid;grid-template-columns:54px repeat(6,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.week .hd{background:#f6f9fe;padding:9px;text-align:center;font-weight:600;font-size:12px;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+.week .hrs div{height:56px;font-size:11px;color:var(--mut);text-align:right;padding:3px 6px;border-top:1px solid #eef2f8}
+.week .col{position:relative;border-left:1px solid var(--line);height:560px;background:repeating-linear-gradient(#fff 0 55px,#eef2f8 55px 56px)}
+.ap{position:absolute;left:3px;right:3px;border-radius:8px;padding:4px 7px;font-size:11px;line-height:1.25;overflow:hidden;cursor:pointer;color:#0a1a38;border-left:4px solid}
+.ap b{display:block;font-size:11.5px}
+.kan{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kcol{background:#eaf0fa;border-radius:12px;padding:10px;min-height:260px}
+.kcol h4{font-size:12px;margin-bottom:9px;display:flex;justify-content:space-between}
+.kc{background:#fff;border-radius:10px;padding:10px;margin-bottom:8px;border:1px solid var(--line);font-size:12.5px}
+.kc small{color:var(--mut);display:block;margin-top:3px}
+.bar{height:8px;border-radius:5px;background:#e8eef8;overflow:hidden}.bar i{display:block;height:100%;border-radius:5px}
+.phone{width:290px;margin:auto;border:10px solid #101c3c;border-radius:34px;background:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(10,26,56,.25)}
+.phone .ph{background:linear-gradient(120deg,var(--navy),#0b5e7a);color:#fff;padding:18px 16px}
+.phone .pb{padding:14px;display:grid;gap:10px;background:#f6f9fe}
+.phone .pi{background:#fff;border-radius:12px;padding:10px 12px;border:1px solid var(--line);font-size:12.5px}
+.video{background:#0b1226;border-radius:14px;height:300px;position:relative;display:grid;place-items:center;color:#8fa3cf;overflow:hidden}
+.video .me{position:absolute;right:14px;bottom:14px;width:130px;height:90px;border-radius:10px;background:#1b2a52;border:2px solid var(--teal);display:grid;place-items:center;font-size:11px}
+.video .ctl{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px}
+.video .ctl span{width:38px;height:38px;border-radius:50%;background:#1f3266;display:grid;place-items:center;color:#fff;font-size:15px}
+.video .ctl span.end{background:var(--bad)}
+.tooth{cursor:pointer}
+.tooth rect{stroke:#46618f;stroke-width:1.4;transition:fill .15s}
+.tooth text{font-size:10px;fill:#17233c;text-anchor:middle;pointer-events:none}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;margin-top:8px}.legend span{display:flex;align-items:center;gap:5px}.legend i{width:13px;height:13px;border-radius:4px;display:inline-block;border:1px solid #46618f}
+.chat{display:flex;flex-direction:column;height:430px}
+.msgs{flex:1;overflow-y:auto;background:#f6f9fe;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:9px}
+.m{max-width:86%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.45}
+.m.u{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:3px}
+.m.a{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:3px}
+.m.tr{align-self:flex-start;background:#ede9fe;color:#4c1d95;font-size:11.5px;font-family:Consolas,monospace}
+.agent{display:flex;gap:12px;align-items:flex-start}
+.agent .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none}
+.agent p{color:var(--mut);font-size:12.5px;margin-top:3px;line-height:1.4}
+.disc{margin-top:26px;font-size:11.5px;color:var(--mut);text-align:center;line-height:1.5}
+.tg{display:inline-block;width:34px;height:19px;border-radius:12px;background:#cbd5e5;position:relative;cursor:pointer;vertical-align:middle}
+.tg:after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.2s}
+.tg.on{background:var(--teal)}.tg.on:after{left:17px}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;opacity:0;transform:translateY(10px);transition:.25s;z-index:99;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+.price{font-size:28px;font-weight:800;color:var(--navy2)}.price small{font-size:12px;color:var(--mut);font-weight:400}
+.plan.hl{border:2px solid var(--teal)}
+ul.ck{list-style:none;margin:10px 0;display:grid;gap:6px}ul.ck li:before{content:"✓ ";color:var(--teal);font-weight:700}
+.al{border:1px solid var(--line);border-left:4px solid #2563eb;border-radius:8px;padding:9px 12px;margin-bottom:8px;font-size:13px;background:#eff6ff;line-height:1.45}
+.al.r{border-left-color:#dc2626;background:#fef2f2}.al.y{border-left-color:#f59e0b;background:#fffbeb}.al.g{border-left-color:#16a34a;background:#f0fdf4}
+.adh{display:grid;grid-template-columns:140px repeat(14,1fr);gap:3px;align-items:center;margin-bottom:4px}
+.adh .c{height:26px;border-radius:6px;cursor:pointer;text-align:center;font-size:11px;line-height:26px;user-select:none}.adh .c.on{background:#16a34a;color:#fff}.adh .c.off{background:#fecaca;color:#991b1b}
+textarea{width:100%;resize:vertical}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g21,.g12,.g3{grid-template-columns:1fr}.kan{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){aside{transform:translateX(-100%)}aside.open{transform:none}main{margin-left:0}.burger{display:block}.g2{grid-template-columns:1fr}#view{padding:16px}}
+@media print{aside,.top,.btn{display:none}main{margin:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside id="side">
+  <div class="brand">
+    <svg width="44" height="44" viewBox="0 0 44 44"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#0fd3c0"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs><rect width="44" height="44" rx="12" fill="#0e2250"/><path d="M22 22c-3-5-6.5-7-9.5-7a7 7 0 0 0 0 14c3 0 6.5-2 9.5-7zm0 0c3 5 6.5 7 9.5 7a7 7 0 0 0 0-14c-3 0-6.5 2-9.5 7z" fill="none" stroke="url(#lg)" stroke-width="3.2" stroke-linecap="round"/><path d="M22 18v8M18 22h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    <div><b>NEXUS INFINITY<br>CORPORATION</b><small>NEXUS CLINIC · CONSULTORIO</small></div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+</aside>
+<main>
+  <div class="top">
+    <button class="burger" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+    <h1 id="ttl">Panel principal<small id="sub"></small></h1>
+    <select id="role" onchange="state.role=this.value;toast('Rol activo: '+this.value);if(cur==='IA')go('IA')">
+      <option>Médico</option><option>Recepción</option><option>Administrador</option>
+    </select>
+    <select id="sede"><option>Sede Central · La Paz</option><option>Sede Sur · Calacoto</option><option>Sede Santa Cruz</option></select>
+    <div class="avatar">VQ</div>
+  </div>
+  <section id="view"></section>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== utilidades ===== */
+const $=s=>document.querySelector(s);
+const state={role:'Médico'};
+let cur='HOME';
+const badge=(t,c='b')=>`<span class="badge ${c}">${t}</span>`;
+const kpi=(l,v,d,c='')=>`<div class="kpi"><div class="kl">${l}</div><div class="kv">${v}</div><div class="kd ${c}">${d}</div></div>`;
+const tbl=(h,r)=>`<div class="tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const card=(t,b,cls='')=>`<div class="card ${cls}"><h3>${t}</h3>${b}</div>`;
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2300)};
+const bars=(v,l,color='#00b3a4',h=170)=>{const w=400,n=v.length,bw=w/n,m=Math.max(...v)*1.15;return `<svg viewBox="0 0 ${w} ${h+22}" width="100%">${v.map((x,i)=>{const bh=x/m*h;return `<rect x="${i*bw+bw*.18}" y="${h-bh}" width="${bw*.64}" height="${bh}" rx="5" fill="${color}"/><text x="${i*bw+bw/2}" y="${h-bh-4}" font-size="10" text-anchor="middle" fill="#475569">${x}</text><text x="${i*bw+bw/2}" y="${h+14}" font-size="10.5" text-anchor="middle" fill="#6b7a96">${l[i]}</text>`}).join('')}</svg>`};
+const line=(v,l,color='#2563eb',h=150,min=null,max=null)=>{const w=400,n=v.length,lo=min??Math.min(...v)*.9,hi=max??Math.max(...v)*1.05;const px=i=>20+i*(w-40)/(n-1),py=x=>h-(x-lo)/(hi-lo)*h+6;return `<svg viewBox="0 0 ${w} ${h+26}" width="100%"><polyline fill="none" stroke="${color}" stroke-width="2.6" points="${v.map((x,i)=>px(i)+','+py(x)).join(' ')}"/>${v.map((x,i)=>`<circle cx="${px(i)}" cy="${py(x)}" r="4" fill="#fff" stroke="${color}" stroke-width="2.2"/><text x="${px(i)}" y="${py(x)-9}" font-size="10" text-anchor="middle" fill="#475569">${x}</text><text x="${px(i)}" y="${h+22}" font-size="10.5" text-anchor="middle" fill="#6b7a96">${l[i]}</text>`).join('')}</svg>`};
+const prog=(p,c='#00b3a4')=>`<div class="bar"><i style="width:${p}%;background:${c}"></i></div>`;
+const act=(t,c='sec')=>`<button class="btn sm ${c}" onclick="toast('Demo: ${t}')">${t}</button>`;
+
+/* ===== catálogo de módulos ===== */
+const AREAS=[
+ {id:'A',n:'Área A · Gestión clínica'},
+ {id:'B',n:'Área B · Operaciones del consultorio'},
+ {id:'C',n:'Área C · Administración y finanzas'},
+ {id:'D',n:'Área D · Control, gestión y expansión'},
+ {id:'E',n:'Área E · Módulos avanzados'}
+];
+const MODS=[
+['M01','Registro y expediente del paciente','A','Alta de pacientes, datos demográficos, documento de identidad, seguro, contactos y expediente único.',['Búsqueda por CI / nombre','Detección de duplicados','Fotografía y adjuntos','Seguros y convenios','Datos de emergencia']],
+['M02','Historia clínica electrónica','A','Registro estructurado de cada consulta: motivo, antecedentes, examen físico, evolución y plan, con firma electrónica.',['Motivo y enfermedad actual','Antecedentes, síntomas y examen','Evaluación, diagnósticos y plan','Evolución longitudinal','Plantillas por especialidad','IA: transcripción y borrador revisable','Firma y correcciones trazables']],
+['M03','Diagnósticos, recetas y tratamientos','A','Diagnósticos con CIE-10, recetas digitales con alertas de alergias e interacciones y planes de tratamiento.',['Catálogo de diagnósticos configurable','Recetas completas','Indicaciones y restricciones','Plan y control de cumplimiento','Alergias e interacciones','Impresión y envío seguro','IA: verifica, no prescribe ni firma']],
+['M04','Evaluación clínica y signos vitales','A','Captura de signos vitales, antropometría y escalas con gráficos de evolución y alertas por rangos.',['Presión, FC, FR, Temp, SpO₂','IMC automático','Gráficos de tendencia','Rangos de alerta','Escalas clínicas']],
+['M05','Órdenes médicas y resultados','A','Solicitud de laboratorio, imágenes y procedimientos, con recepción y revisión de resultados.',['Órdenes de laboratorio e imagen','Estado de la orden','Resultados adjuntos','Valores fuera de rango','Revisión del médico']],
+['M06','Agenda médica y citas','B','Agenda por profesional, consultorio y sede; citas, bloqueos, sobrecupos y recordatorios.',['Vista semanal / diaria','Citas recurrentes','Bloqueos y vacaciones','Sobrecupos','Recordatorios automáticos']],
+['M07','Recepción y flujo de pacientes','B','Control de llegada, sala de espera y turnos hasta el alta, con tiempos de atención.',['Check-in','Sala de espera','Tiempos de espera','Asignación de consultorio','Alta y cobro']],
+['M08','Comunicación y seguimiento','B','Mensajes, recordatorios y seguimiento posconsulta por WhatsApp, SMS y correo, con plantillas.',['Plantillas de mensajes','Recordatorio de citas','Seguimiento posconsulta','Campañas de control','Registro de envíos']],
+['M09','Telemedicina','B','Videoconsulta integrada a la agenda y a la historia clínica, con sala virtual y consentimiento.',['Sala de video','Chat y archivos','Registro en la HCE','Consentimiento previo','Receta remota']],
+['M10','Caja, facturación y pagos','C','Cobros, arqueo de caja, facturación electrónica, pagos parciales y cuentas por cobrar.',['Caja diaria y arqueo','Facturación electrónica','QR, tarjeta, efectivo','Pagos parciales','Cuentas por cobrar']],
+['M11','Inventario e insumos médicos','C','Control de insumos y medicamentos con stock mínimo, lotes, vencimientos y consumo por procedimiento.',['Stock mínimo','Lotes y vencimientos','Kardex','Consumo por procedimiento','Órdenes de compra']],
+['M12','Contabilidad y gastos','C','Ingresos, egresos, gastos fijos y variables, y conciliación con el sistema contable.',['Plan de cuentas','Registro de gastos','Cuentas por pagar','Flujo de caja','Exportación contable']],
+['M13','Personal y profesionales','C','Fichas de profesionales y personal, horarios, comisiones y honorarios por servicio.',['Ficha de profesionales','Matrícula y especialidad','Horarios y turnos','Honorarios y comisiones','Documentos del personal']],
+['M14','Reportes e inteligencia de negocio (BI)','D','Tableros de gestión: pacientes, ingresos, productividad, ocupación y retención.',['Tablero ejecutivo','Productividad por médico','Ocupación de agenda','Diagnósticos frecuentes','Exportación']],
+['M15','Administración del sistema','D','Usuarios, roles y permisos, parámetros del consultorio, copias de seguridad y catálogos.',['Roles y permisos','Parámetros generales','Catálogos','Respaldos','Registro de sesiones']],
+['M16','Portal del paciente','D','Acceso del paciente a sus citas, resultados, recetas y pagos desde web o móvil.',['Reserva en línea','Resultados y recetas','Pagos en línea','Mensajes','Documentos']],
+['M17','Derivaciones y continuidad asistencial','D','Referencia y contrarreferencia a especialistas, laboratorios y hospitales con seguimiento.',['Referencia / contrarreferencia','Resumen clínico','Estado de la derivación','Red de centros','Alta y retorno']],
+['M18','Consentimiento, documentos y auditoría clínica','D','Consentimientos informados, documentos firmados y trazabilidad de accesos y cambios al expediente.',['Consentimientos digitales','Firma electrónica','Control de versiones','Bitácora de accesos','Auditoría clínica']],
+['M19','Odontología','E','Odontograma, tratamientos por pieza dental, presupuestos y evolución.',['Odontograma interactivo','Tratamiento por pieza','Presupuesto','Evolución','Radiografías']],
+['M20','Pediatría','E','Crecimiento, curvas, controles y esquemas de seguimiento configurables.',['Curvas de crecimiento','Controles del niño sano','Esquema de vacunas','Desarrollo','Alertas de control']],
+['M21','Ginecología','E','Antecedentes, controles, procedimientos y seguimiento especializado.',['Antecedentes gineco-obstétricos','Control prenatal','Citología y colposcopia','Procedimientos','Seguimiento']],
+['M22','Cardiología y otras especialidades','E','Formularios, escalas y protocolos específicos según especialidad.',['Formularios por especialidad','Escalas de riesgo','Protocolos','ECG y estudios','Plantillas']],
+['M23','Procedimientos y curaciones','E','Programación, preparación, insumos, registro y evolución.',['Programación','Checklist de preparación','Insumos consumidos','Registro del procedimiento','Evolución de la herida']],
+['M24','Certificados e informes','E','Plantillas de certificados, constancias e informes clínicos.',['Certificado médico','Constancia de atención','Informe clínico','Plantillas con membrete','Validación por QR']],
+['M25','Integración con dispositivos','E','Importación controlada de mediciones desde equipos compatibles.',['Tensiómetro, oxímetro, balanza','Glucómetro','ECG portátil','Validación antes de guardar','Registro de origen']],
+['M26','Gestión multisucursal','E','Separación por sede, recursos compartidos y consolidación autorizada.',['Datos por sede','Recursos compartidos','Traslado de pacientes','Consolidación autorizada','Permisos por sede']],
+['M27','Suscripciones SaaS','E','Planes, límites, facturación de suscripciones y administración de clientes.',['Planes y límites','Facturación recurrente','Alta de clientes','Uso por cliente','Renovaciones']],
+['M28','Integraciones externas','E','Laboratorios, sistemas contables, mensajería y otros servicios autorizados.',['Laboratorios','Sistema contable','WhatsApp / SMS / correo','Pasarela de pagos','API autorizada']]
+];
+
+/* ===== navegación ===== */
+function buildNav(){
+ let h=`<a data-k="HOME" onclick="go('HOME')"><i>INICIO</i>Panel principal</a>`;
+ AREAS.forEach(a=>{h+=`<div class="nav-area">${a.n}</div>`;MODS.filter(m=>m[2]===a.id).forEach(m=>{h+=`<a data-k="${m[0]}" onclick="go('${m[0]}')"><i>${m[0]}</i>${m[1]}</a>`})});
+ h+=`<div class="nav-area">Capa de inteligencia artificial</div><a class="ai" data-k="IA" onclick="go('IA')"><i>IA</i>Agentes especializados</a>`;
+ $('#nav').innerHTML=h;
+}
+function go(k){
+ cur=k;
+ document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===k));
+ $('#side').classList.remove('open');
+ const v=$('#view');
+ if(k==='HOME'){$('#ttl').innerHTML='Panel principal<small>Consultorio médico · Vista del día</small>';v.innerHTML=home();}
+ else if(k==='IA'){$('#ttl').innerHTML='Capa de inteligencia artificial<small>Orquestador y agentes especializados</small>';v.innerHTML=iaView();initIA();}
+ else{
+  const m=MODS.find(x=>x[0]===k);
+  $('#ttl').innerHTML=`${m[0]} · ${m[1]}<small>${AREAS.find(a=>a.id===m[2]).n}</small>`;
+  v.innerHTML=`<div class="hero"><div style="flex:1;min-width:260px"><h2>${m[1]}</h2><p>${m[3]}</p><div class="chips">${m[4].map(c=>`<span class="chip">${c}</span>`).join('')}</div></div></div>`+(VIEWS[k]?VIEWS[k]():'')+`<div class="disc">Datos ficticios con fines de demostración · NEXUS INFINITY CORPORATION</div>`;
+  if(INIT[k])INIT[k]();
+ }
+ window.scrollTo(0,0);
+}
+function tabs(id,names,fn){window['_t'+id]=fn;return `<div class="tabs" id="tb${id}">${names.map((n,i)=>`<div class="tab ${i?'':'on'}" onclick="selTab('${id}',${i},this)">${n}</div>`).join('')}</div><div id="tc${id}">${fn(0)}</div>`}
+function selTab(id,i,el){document.querySelectorAll('#tb'+id+' .tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');$('#tc'+id).innerHTML=window['_t'+id](i)}
+
+/* ===== inicio ===== */
+function home(){
+ return `<div class="hero"><div style="flex:1;min-width:260px"><h2>Buenos días, Dra. Valeria Quispe</h2><p>Plataforma integral de gestión para consultorios médicos: 28 módulos clínicos, operativos y financieros, con una capa de agentes de inteligencia artificial bajo control de permisos.</p><div class="chips"><span class="chip">18 módulos base</span><span class="chip">10 módulos especializados</span><span class="chip">7 agentes de IA</span><span class="chip">Multisucursal</span></div></div></div>
+ <div class="grid g4" style="margin-bottom:16px">${kpi('Citas de hoy','24','▲ 3 más que ayer','up')}${kpi('Pacientes en sala','5','Espera promedio 12 min')}${kpi('Ingresos del día','Bs 6.480','▲ 8% vs. promedio','up')}${kpi('Ocupación de agenda','87%','Meta 85%','up')}</div>
+ <div class="grid g21" style="margin-bottom:16px">
+  ${card('Próximas citas de hoy',tbl(['Hora','Paciente','Profesional','Motivo','Estado'],[
+   ['09:00','Carlos Mendoza R.','Dra. Quispe','Control de hipertensión',badge('En consulta','g')],
+   ['09:30','Ana Lucía Vargas','Dr. Terán','Electrocardiograma',badge('En sala','y')],
+   ['10:00','Mateo Choque (2 a)','Dra. Paredes','Control niño sano',badge('Confirmada','b')],
+   ['10:30','Rosa Limachi','Dra. Rojas','Control prenatal',badge('Confirmada','b')],
+   ['11:00','Jorge Salinas','Dr. Flores','Endodoncia pieza 36',badge('Pendiente','n')]]))}
+  ${card('Alertas del agente de seguridad',`<div style="display:grid;gap:10px"><div>${badge('Media','y')} 3 accesos fallidos al usuario <b>recepcion2</b></div><div>${badge('Baja','b')} Consulta masiva de expedientes (reporte autorizado)</div><div>${badge('Alta','r')} Intento de exportar datos fuera de horario</div><button class="btn sm sec" onclick="go('IA')">Ver agentes de IA</button></div>`)}
+ </div>
+ <div class="grid g3">
+  ${card('Pacientes atendidos por día',bars([18,22,19,25,24,12],['Lun','Mar','Mié','Jue','Vie','Sáb']))}
+  ${card('Stock crítico',[['Guantes de látex M',40],['Jeringas 5 ml',55],['Anestesia lidocaína',20]].map(x=>`<div style="margin-bottom:12px">${x[0]}<span style="float:right;color:var(--mut)">${x[1]}%</span>${prog(x[1],x[1]<30?'#dc2626':'#f59e0b')}</div>`).join(''))}
+  ${card('Accesos rápidos',`<div class="row">${['M01','M06','M02','M10','M19','M09'].map(k=>`<button class="btn sec sm" onclick="go('${k}')">${k} · ${MODS.find(m=>m[0]===k)[1].split(' ')[0]}</button>`).join('')}</div>`)}
+ </div>
+ <div class="disc">Datos ficticios con fines de demostración · NEXUS INFINITY CORPORATION</div>`;
+}
+
+/* ===== vistas por módulo ===== */
+const PAC=[['4567890 LP','Carlos Mendoza Rojas','45','M','Hipertensión arterial','Caja Nacional'],['5123456 LP','Ana Lucía Vargas','38','F','Dislipidemia','Particular'],['9876543 SC','Rosa Limachi Condori','29','F','Embarazo 24 sem.','SUS Privado'],['8123490 LP','Mateo Choque Mamani','2','M','Control niño sano','Particular'],['3345678 CB','Jorge Salinas Peña','52','M','Caries / endodoncia','Seguro Univida']];
+const VIEWS={};const INIT={};
+
+/* ===== M03: diagnósticos, recetas y tratamientos (más pacientes de M01) ===== */
+const pacTable=l=>tbl(['CI','Paciente','Edad','Sexo','Motivo / condición','Seguro',''],l.map(p=>[p[0],`<b>${p[1]}</b>`,p[2],p[3],p[4],badge(p[5],'t'),act('Abrir')]));
+window.filtPac=q=>{q=q.toLowerCase();$('#pacT').innerHTML=pacTable(PAC.filter(p=>(p[0]+p[1]).toLowerCase().includes(q)))};
+
+const CAT=[
+['I10','Hipertensión esencial (primaria)','CIE-10'],
+['E78.5','Hiperlipidemia, no especificada','CIE-10'],
+['E11.9','Diabetes mellitus tipo 2, sin complicaciones','CIE-10'],
+['E66.9','Obesidad, no especificada','CIE-10'],
+['J06.9','Infección aguda de las vías respiratorias superiores, no especificada','CIE-10'],
+['J20.9','Bronquitis aguda, no especificada','CIE-10'],
+['N39.0','Infección de vías urinarias, sitio no especificado','CIE-10'],
+['K29.7','Gastritis, no especificada','CIE-10'],
+['K02.1','Caries de la dentina','CIE-10'],
+['K04.0','Pulpitis','CIE-10'],
+['M54.5','Lumbago','CIE-10'],
+['R51','Cefalea','CIE-10'],
+['Z34.9','Supervisión de embarazo normal, no especificado','CIE-10'],
+['Z00.1','Control de salud de rutina del niño','CIE-10']
+];
+const FREQ=[['Cada 24 h',24],['Cada 12 h',12],['Cada 8 h',8],['Cada 6 h',6],['Cada 4 h',4],['Dosis única',0]];
+const VIAS=['Oral','Sublingual','Intramuscular','Intravenosa','Subcutánea','Tópica','Inhalatoria','Oftálmica'];
+const DRUGS={'Losartán potásico':['Tableta 100 mg','Tableta 50 mg'],'Atorvastatina':['Tableta 20 mg','Tableta 40 mg'],'Amoxicilina':['Cápsula 500 mg','Suspensión 250 mg/5 ml'],'Cefalexina':['Cápsula 500 mg'],'Claritromicina':['Tableta 500 mg'],'Ibuprofeno':['Tableta 400 mg','Tableta 600 mg'],'Paracetamol':['Tableta 500 mg','Gotas 100 mg/ml'],'Enalapril':['Tableta 10 mg'],'Espironolactona':['Tableta 25 mg'],'Amlodipino':['Tableta 5 mg'],'Metformina':['Tableta 850 mg'],'Omeprazol':['Cápsula 20 mg']};
+const LIM={'Paracetamol':4000,'Ibuprofeno':2400,'Losartán potásico':100,'Atorvastatina':80,'Amoxicilina':3000};
+const ABX=['Amoxicilina','Cefalexina','Claritromicina'];
+const INF=['J06.9','J20.9','N39.0'];
+const INTS=[
+['Losartán potásico','Enalapril','Mayor','Doble bloqueo del sistema renina-angiotensina: mayor riesgo de hiperpotasemia, hipotensión y deterioro de la función renal. Habitualmente se evita.'],
+['Losartán potásico','Ibuprofeno','Moderada','Los antiinflamatorios (AINE) pueden disminuir el efecto antihipertensivo y aumentar el riesgo de daño renal, sobre todo con deshidratación.'],
+['Enalapril','Ibuprofeno','Moderada','Los AINE pueden reducir el efecto del IECA y aumentar el riesgo renal.'],
+['Losartán potásico','Espironolactona','Moderada','Riesgo de hiperpotasemia. Requiere control de potasio y creatinina.'],
+['Atorvastatina','Claritromicina','Mayor','Aumenta la concentración de atorvastatina y el riesgo de miopatía y rabdomiólisis. Se suele evitar la combinación.']
+];
+const ALR={'Amoxicilina':['penicilin','Contraindicado','Pertenece a la clase de las penicilinas, a la que el paciente tiene alergia registrada.'],'Cefalexina':['penicilin','Precaución','Reactividad cruzada baja pero posible con penicilinas. El médico debe valorar el riesgo.']};
+
+const EXP={
+ cat:'CIE-10',
+ dx:[['I10','Hipertensión esencial (primaria)','Principal','02/03/2026'],['E78.5','Hiperlipidemia, no especificada','Secundario','14/06/2026']],
+ rx:[
+  {m:'Losartán potásico',pr:'Tableta 100 mg',d:'100 mg (1 tableta)',v:'Oral',f:'Cada 24 h',h:24,du:'30 días'},
+  {m:'Atorvastatina',pr:'Tableta 20 mg',d:'20 mg (1 tableta por la noche)',v:'Oral',f:'Cada 24 h',h:24,du:'30 días'}],
+ alg:[['Penicilinas (amoxicilina, ampicilina)','Urticaria generalizada','Moderada','2009'],['Látex','Dermatitis de contacto','Leve','2018']],
+ ind:{indic:'1) Tomar losartán 100 mg una vez al día, por la mañana y a la misma hora.\n2) Tomar atorvastatina 20 mg por la noche.\n3) No suspender los medicamentos aunque la presión se vea normal.',
+  cuid:'Medir la presión en casa por la mañana y por la noche durante 7 días antes del control, sentado y después de 5 minutos de reposo. Anotar los valores.\nAcudir a emergencias si presenta dolor de pecho, falta de aire, dolor de cabeza intenso con visión borrosa o debilidad de un lado del cuerpo.',
+  reco:'Reducir la sal (menos de 5 g al día) y evitar embutidos y alimentos procesados. Caminar 30 minutos, 5 días por semana. Mantener un peso saludable.',
+  rest:'No tomar antiinflamatorios (ibuprofeno, diclofenaco) sin consultar al médico. Evitar el alcohol en exceso y el tabaco. No usar suplementos de potasio sin indicación.'},
+ plan:[['Control clínico con medición de presión','20/11/2026','Programado'],['Laboratorio: perfil lipídico, creatinina y potasio','20/11/2026','Orden emitida'],['Medición domiciliaria de presión (7 días previos)','13/11/2026','Pendiente'],['Meta de presión arterial definida por el médico','En el control','Revisar']],
+ adh:{l:[1,1,1,0,1,1,1,1,0,1,1,1,1,1],a:[1,1,0,0,1,1,1,0,1,1,1,0,1,1]},
+ ia:null,signed:null,log:[]
+};
+const TPL={
+ 'Hipertensión arterial':null,
+ 'Infección respiratoria alta':{indic:'1) Tomar los medicamentos indicados en la receta, en los horarios señalados.\n2) Completar el tiempo de tratamiento indicado.',cuid:'Reposo relativo, abundantes líquidos y lavado frecuente de manos. Consultar si la fiebre dura más de 3 días o aparece dificultad para respirar.',reco:'Ambientes ventilados y evitar cambios bruscos de temperatura.',rest:'No automedicarse con antibióticos. Evitar fumar y exponerse al humo.'},
+ 'Diabetes tipo 2':{indic:'1) Tomar metformina con las comidas, según la receta.\n2) Medir la glucosa en ayunas según la frecuencia indicada.',cuid:'Revisar los pies todos los días. Acudir a urgencias si hay sed intensa, vómitos o somnolencia.',reco:'Plan de alimentación con control de azúcares y harinas refinadas. Actividad física regular.',rest:'Evitar bebidas azucaradas y el ayuno prolongado sin consultar.'}
+};
+const hoy=()=>new Date().toLocaleString('es-BO',{dateStyle:'short',timeStyle:'short'});
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const sevCls=s=>/Mayor|Contraindicado/.test(s)?'r':'y';
+
+function expHead(){return `<div class="pt-head"><div class="avatar">CM</div><div style="flex:1"><h2 style="font-size:18px">Carlos Mendoza Rojas</h2><span style="color:var(--mut)">CI 4567890 LP · 45 años · Masculino · HC N.° 000482 · Caja Nacional</span></div><div class="row">${EXP.alg.length?EXP.alg.map(a=>badge('Alergia: '+a[0].split(' (')[0],'r')).join(' '):badge('Sin alergias registradas','g')}</div></div>`}
+
+VIEWS.M01=()=>card('Pacientes y expedientes',tabPac());
+VIEWS.M03=()=>card('Paciente en consulta',`<div id="expHead">${expHead()}</div>`)+`<div style="height:16px"></div>`+card('Diagnóstico, receta y tratamiento',tabs('exp',['Diagnósticos y codificación','Receta','Indicaciones y restricciones','Plan y cumplimiento','Alergias e interacciones','Impresión y envío seguro'],i=>[tabDx,tabRx,tabInd,tabPlan,tabAlg,tabPrint][i]()));
+
+function tabPac(){return `<div class="grid g21"><div><div class="row" style="margin-bottom:10px"><input placeholder="Buscar por CI o nombre…" style="width:260px" oninput="filtPac(this.value)">${act('+ Nuevo paciente','')}</div><div id="pacT">${pacTable(PAC)}</div></div><div class="card" style="box-shadow:none"><h3>Nuevo paciente</h3><div class="field"><label>Nombre completo</label><input placeholder="Nombres y apellidos"></div><div class="grid g2"><div class="field"><label>Cédula de identidad</label><input placeholder="0000000 LP"></div><div class="field"><label>Fecha de nacimiento</label><input type="date"></div></div><div class="grid g2"><div class="field"><label>Teléfono</label><input placeholder="+591 …"></div><div class="field"><label>Seguro</label><select><option>Particular</option><option>Caja Nacional</option><option>Seguro privado</option></select></div></div><div class="field"><label>Contacto de emergencia</label><input></div><button class="btn" onclick="toast('Demo: paciente registrado y expediente creado')">Crear expediente</button></div></div>`}
+
+/* ---------- Diagnósticos y codificación ---------- */
+function tabDx(){return `<div class="grid g2"><div class="card" style="box-shadow:none"><h3>Catálogo de diagnósticos <span id="catBadge">${badge(EXP.cat,'t')}</span></h3><div class="field"><label>Sistema de codificación activo (configurable)</label><select onchange="xSetCat(this.value)"><option ${EXP.cat==='CIE-10'?'selected':''}>CIE-10</option><option ${EXP.cat==='CIE-11'?'selected':''}>CIE-11</option><option ${EXP.cat==='Catálogo propio'?'selected':''}>Catálogo propio</option></select></div><input id="dxq" placeholder="Buscar por código o nombre (ej. I10, hipertensión, caries)…" style="width:100%;margin-bottom:10px" oninput="xDxSearch(this.value)"><div id="dxRes">${xDxRes('')}</div></div><div class="card" style="box-shadow:none"><h3>Diagnósticos del paciente</h3><div id="dxList">${xDxList()}</div></div></div><div class="card" style="box-shadow:none;margin-top:16px"><h3>Agregar código propio del consultorio</h3><div class="row"><input id="ncCod" placeholder="Código (ej. NX-001)" style="width:150px"><input id="ncDes" placeholder="Descripción del diagnóstico" style="flex:1;min-width:220px"><button class="btn" onclick="xAddCat()">Agregar al catálogo</button></div></div>`}
+window.xSetCat=v=>{EXP.cat=v;$('#catBadge').innerHTML=badge(v,'t');toast(v==='CIE-11'?'Demo: el mapeo CIE-10 → CIE-11 se configura por consultorio':'Catálogo activo: '+v)};
+function xDxRes(q){q=(q||'').toLowerCase();const l=CAT.filter(c=>(c[0]+' '+c[1]).toLowerCase().includes(q)).slice(0,7);return l.length?tbl(['Código','Descripción','Origen',''],l.map(c=>[`<b>${c[0]}</b>`,c[1],badge(c[2],c[2]==='Propio'?'p':'n'),`<button class="btn sm sec" onclick="xAddDx('${c[0]}')">+ Agregar</button>`])):'<p style="color:var(--mut)">Sin resultados.</p>'}
+window.xDxSearch=q=>{$('#dxRes').innerHTML=xDxRes(q)};
+function xDxList(){return EXP.dx.length?tbl(['Código','Diagnóstico','Tipo','Desde',''],EXP.dx.map((d,i)=>[`<b>${d[0]}</b>`,d[1],`<span style="cursor:pointer" onclick="xMainDx(${i})">${badge(d[2],d[2]==='Principal'?'g':'n')}</span>`,d[3],`<button class="btn sm sec" onclick="xDelDx(${i})">✕</button>`]))+'<p style="font-size:12px;color:var(--mut);margin-top:8px">Clic en el tipo para marcarlo como diagnóstico principal.</p>':'<p style="color:var(--mut)">Sin diagnósticos registrados.</p>'}
+window.xAddDx=c=>{const x=CAT.find(k=>k[0]===c);if(EXP.dx.some(d=>d[0]===c))return toast('Ese diagnóstico ya está registrado');EXP.dx.push([x[0],x[1],EXP.dx.length?'Secundario':'Principal',new Date().toLocaleDateString('es-BO')]);$('#dxList').innerHTML=xDxList();toast('Diagnóstico agregado: '+c)};
+window.xMainDx=i=>{EXP.dx.forEach((d,k)=>d[2]=k===i?'Principal':'Secundario');$('#dxList').innerHTML=xDxList()};
+window.xDelDx=i=>{EXP.dx.splice(i,1);$('#dxList').innerHTML=xDxList()};
+window.xAddCat=()=>{const c=$('#ncCod').value.trim(),d=$('#ncDes').value.trim();if(!c||!d)return toast('Complete código y descripción');if(CAT.some(x=>x[0]===c))return toast('Ese código ya existe');CAT.push([c,d,'Propio']);$('#ncCod').value='';$('#ncDes').value='';$('#dxq').value=c;xDxSearch(c);toast('Código propio agregado al catálogo')};
+
+/* ---------- Receta ---------- */
+const mgDay=r=>{const x=String(r.d||'').match(/(\d+(?:[.,]\d+)?)\s*(mg|g)\b/i);if(!x)return null;let v=parseFloat(x[1].replace(',','.'));if(x[2].toLowerCase()==='g')v*=1000;return r.h>0?v*24/r.h:v};
+function intList(extra){const names=EXP.rx.map(x=>x.m);if(extra&&!names.includes(extra))names.push(extra);const out=[];INTS.forEach(p=>{if(names.includes(p[0])&&names.includes(p[1]))out.push([p[0],p[1],p[2],p[3]])});names.forEach(n=>{const a=ALR[n];if(a)EXP.alg.forEach(al=>{if(al[0].toLowerCase().includes(a[0]))out.push([n,'Alergia: '+al[0],a[1],a[2]])})});return out}
+const miss=v=>v&&String(v).trim()?esc(v):badge('Falta','r');
+function rxHTML(){
+ const first=Object.keys(DRUGS)[0];
+ const rows=EXP.rx.map((x,i)=>[`<b>${miss(x.m)}</b>`,miss(x.pr),miss(x.d),miss(x.v),miss(x.f),miss(x.du),`<button class="btn sm sec" onclick="xDelRx(${i})">✕</button>`]);
+ const il=intList();
+ const ia=EXP.ia;
+ const sg=EXP.signed;
+ return `${EXP.rx.length?tbl(['Medicamento','Presentación','Dosis','Vía','Frecuencia','Duración',''],rows):'<p style="color:var(--mut)">La receta no tiene medicamentos.</p>'}
+ <div class="card" style="box-shadow:none;background:#f6f9fe;margin-top:14px"><h3>Agregar medicamento</h3><div class="grid g3"><div class="field"><label>Medicamento</label><select id="rxM" onchange="xFillPres()">${Object.keys(DRUGS).map(k=>`<option>${k}</option>`).join('')}</select></div><div class="field"><label>Presentación</label><select id="rxPr">${DRUGS[first].map(p=>`<option>${p}</option>`).join('')}</select></div><div class="field"><label>Dosis</label><input id="rxD" placeholder="Ej.: 100 mg (1 tableta)"></div><div class="field"><label>Vía</label><select id="rxV">${VIAS.map(v=>`<option>${v}</option>`).join('')}</select></div><div class="field"><label>Frecuencia</label><select id="rxF">${FREQ.map(f=>`<option>${f[0]}</option>`).join('')}</select></div><div class="field"><label>Duración</label><input id="rxDu" placeholder="Ej.: 30 días"></div></div><div class="row"><button class="btn" onclick="xAddRx()">+ Agregar a la receta</button><button class="btn sec sm" onclick="xLoadBad()">Cargar borrador con errores de ejemplo</button><button class="btn sec sm" onclick="xLoadOk()">Restablecer receta correcta</button></div></div>
+ <div class="grid g2" style="margin-top:16px">
+  <div class="card" style="box-shadow:none"><h3>Alergias e interacciones ${badge('Fuente clínica','t')}</h3>${il.length?il.map(a=>`<div class="al ${sevCls(a[2])}"><b>${esc(a[0])} + ${esc(a[1])}</b> ${badge(a[2],sevCls(a[2]))}<br>${esc(a[3])}</div>`).join(''):'<div class="al g">Sin alergias ni interacciones detectadas en esta receta.</div>'}<p style="font-size:11.5px;color:var(--mut)">Demostración con reglas de ejemplo. En producción este control se conecta a una fuente clínica validada y licenciada (módulo M28).</p></div>
+  <div class="card" style="box-shadow:none"><h3>Verificación de la IA <button class="btn sm" onclick="xIaVerify()">Verificar con IA</button></h3>${ia===null?'<p style="color:var(--mut)">Aún no verificada. La IA revisa campos incompletos y posibles inconsistencias.</p>':ia.length?ia.map(f=>`<div class="al ${f[0]==='Incompleto'?'y':'b'}">${badge(f[0],f[0]==='Incompleto'?'y':'b')} ${esc(f[1])}</div>`).join(''):'<div class="al g">No se detectaron campos incompletos ni inconsistencias.</div>'}<p style="font-size:11.5px;color:var(--mut)"><b>La IA solo señala.</b> No prescribe, no cambia dosis y no firma. Toda corrección la hace el médico.</p></div>
+ </div>
+ <div class="card" style="box-shadow:none;margin-top:16px;border-color:${sg?'#16a34a':'var(--line)'}"><h3>Firma y emisión (acto exclusivo del médico)</h3>${sg?`<div class="al g">Receta firmada por <b>${esc(sg.by)}</b> · ${esc(sg.t)}. Si modifica la receta, la firma se anula.</div>`:`<div class="row"><label style="font-size:13px"><input type="checkbox" id="rxChk"> He revisado las alertas y la verificación de la IA</label><input id="rxPin" type="password" maxlength="4" placeholder="PIN (4 dígitos)" style="width:150px"><button class="btn dk" onclick="xSign()">Firmar y emitir</button></div><p style="font-size:11.5px;color:var(--mut);margin-top:8px">Demo: use cualquier PIN de 4 dígitos.</p>`}</div>`;
+}
+function tabRx(){return `<div id="rxBox">${rxHTML()}</div>`}
+const xRender=()=>{const b=$('#rxBox');if(b)b.innerHTML=rxHTML()};
+window.xFillPres=()=>{$('#rxPr').innerHTML=DRUGS[$('#rxM').value].map(p=>`<option>${p}</option>`).join('')};
+window.xAddRx=()=>{const fr=FREQ.find(f=>f[0]===$('#rxF').value);EXP.rx.push({m:$('#rxM').value,pr:$('#rxPr').value,d:$('#rxD').value.trim(),v:$('#rxV').value,f:fr[0],h:fr[1],du:$('#rxDu').value.trim()});EXP.signed=null;EXP.ia=null;xRender()};
+window.xDelRx=i=>{EXP.rx.splice(i,1);EXP.signed=null;EXP.ia=null;xRender()};
+window.xLoadBad=()=>{EXP.rx=[{m:'Amoxicilina',pr:'Cápsula 500 mg',d:'500 mg (1 cápsula)',v:'Oral',f:'Cada 8 h',h:8,du:''},{m:'Ibuprofeno',pr:'Tableta 400 mg',d:'400 mg (1 tableta)',v:'Oral',f:'Cada 8 h',h:8,du:'5 días'},{m:'Paracetamol',pr:'Tableta 500 mg',d:'1 g (2 tabletas)',v:'Oral',f:'Cada 4 h',h:4,du:'5 días'},{m:'Losartán potásico',pr:'Tableta 100 mg',d:'100 mg (1 tableta)',v:'Oral',f:'Cada 24 h',h:24,du:'30 días'},{m:'Enalapril',pr:'Tableta 10 mg',d:'',v:'Oral',f:'Cada 12 h',h:12,du:'30 días'}];EXP.signed=null;EXP.ia=null;xRender();toast('Borrador con errores cargado. Pruebe "Verificar con IA"')};
+window.xLoadOk=()=>{EXP.rx=[{m:'Losartán potásico',pr:'Tableta 100 mg',d:'100 mg (1 tableta)',v:'Oral',f:'Cada 24 h',h:24,du:'30 días'},{m:'Atorvastatina',pr:'Tableta 20 mg',d:'20 mg (1 tableta por la noche)',v:'Oral',f:'Cada 24 h',h:24,du:'30 días'}];EXP.signed=null;EXP.ia=null;xRender()};
+window.xIaVerify=()=>{
+ const f=[],r=EXP.rx;
+ if(!EXP.dx.length)f.push(['Incompleto','No hay diagnóstico registrado para esta receta.']);
+ if(!r.length)f.push(['Incompleto','La receta no tiene medicamentos.']);
+ r.forEach((x,i)=>{const m=[['m','medicamento'],['pr','presentación'],['d','dosis'],['v','vía'],['f','frecuencia'],['du','duración']].filter(k=>!String(x[k[0]]||'').trim()).map(k=>k[1]);if(m.length)f.push(['Incompleto',(x.m||'Línea '+(i+1))+': falta '+m.join(', ')+'.'])});
+ r.forEach(x=>{const mx=LIM[x.m],d=mgDay(x);if(mx&&d!==null&&d>mx)f.push(['Inconsistencia',x.m+': la dosis escrita ('+x.d+', '+x.f.toLowerCase()+') equivale a '+Math.round(d)+' mg/día y supera el máximo habitual de referencia para adultos ('+mx+' mg/día). Se señala para su revisión.'])});
+ const abx=r.filter(x=>ABX.includes(x.m));if(abx.length&&!EXP.dx.some(d=>INF.includes(d[0])))f.push(['Inconsistencia','Hay un antibiótico en la receta ('+abx.map(a=>a.m).join(', ')+') y ningún diagnóstico infeccioso registrado.']);
+ if(r.some(x=>x.m==='Losartán potásico')&&r.some(x=>x.m==='Enalapril'))f.push(['Inconsistencia','Losartán y enalapril actúan sobre el mismo sistema y figuran juntos en la misma receta.']);
+ const nm=r.map(x=>x.m);nm.filter((n,i)=>n&&nm.indexOf(n)!==i).forEach(n=>f.push(['Inconsistencia',n+' aparece más de una vez en la receta.']));
+ if(!EXP.ind.indic.trim())f.push(['Incompleto','Faltan las indicaciones de uso para el paciente.']);
+ EXP.ia=f;xRender();
+};
+window.xSign=()=>{if(!$('#rxChk').checked)return toast('Confirme que revisó las alertas');if(!/^\d{4}$/.test($('#rxPin').value))return toast('Ingrese su PIN de 4 dígitos');if(!EXP.rx.length)return toast('La receta no tiene medicamentos');EXP.signed={by:'Dra. Valeria Quispe · MP-4821',t:hoy()};xRender();toast('Receta firmada por el médico')};
+
+/* ---------- Indicaciones, cuidados, recomendaciones y restricciones ---------- */
+function tabInd(){const f=(k,l,r)=>`<div class="field"><label>${l}</label><textarea rows="${r}" oninput="EXP.ind.${k}=this.value">${esc(EXP.ind[k])}</textarea></div>`;return `<div class="row" style="margin-bottom:12px"><label style="font-size:13px;font-weight:600">Plantilla por diagnóstico</label><select id="tplSel" onchange="xTpl(this.value)">${Object.keys(TPL).map(k=>`<option>${k}</option>`).join('')}</select><span style="color:var(--mut);font-size:12px">Las plantillas son textos editables definidos por el consultorio.</span></div><div class="grid g2">${f('indic','Indicaciones',5)}${f('cuid','Cuidados y signos de alarma',5)}${f('reco','Recomendaciones',4)}${f('rest','Restricciones',4)}</div><button class="btn" onclick="toast('Guardado en el expediente. Se incluirá en el documento impreso o enviado.')">Guardar indicaciones</button>`}
+window.xTpl=k=>{if(TPL[k])Object.assign(EXP.ind,TPL[k]);else Object.assign(EXP.ind,{indic:'1) Tomar losartán 100 mg una vez al día, por la mañana y a la misma hora.\n2) Tomar atorvastatina 20 mg por la noche.\n3) No suspender los medicamentos aunque la presión se vea normal.',cuid:'Medir la presión en casa por la mañana y por la noche durante 7 días antes del control, sentado y después de 5 minutos de reposo. Anotar los valores.\nAcudir a emergencias si presenta dolor de pecho, falta de aire, dolor de cabeza intenso con visión borrosa o debilidad de un lado del cuerpo.',reco:'Reducir la sal (menos de 5 g al día) y evitar embutidos y alimentos procesados. Caminar 30 minutos, 5 días por semana. Mantener un peso saludable.',rest:'No tomar antiinflamatorios (ibuprofeno, diclofenaco) sin consultar al médico. Evitar el alcohol en exceso y el tabaco. No usar suplementos de potasio sin indicación.'});$('#tcexp').innerHTML=tabInd();$('#tplSel').value=k;EXP.ia=null};
+
+/* ---------- Plan terapéutico y control de cumplimiento ---------- */
+const DIAS=Array.from({length:14},(_,i)=>String(10+i));
+const adhRow=(k,n)=>{const v=EXP.adh[k],p=Math.round(v.reduce((a,b)=>a+b,0)/v.length*100);return `<div class="adh"><b style="font-size:12.5px">${n}</b>${v.map((x,i)=>`<span class="c ${x?'on':'off'}" onclick="xTogAdh('${k}',${i})">${x?'✓':'✕'}</span>`).join('')}</div><div style="margin:6px 0 16px;font-size:12.5px">Cumplimiento (14 días): <b>${p}%</b> ${p>=80?badge('Adecuado','g'):badge('Baja adherencia','r')}${prog(p,p>=80?'#16a34a':'#dc2626')}</div>`};
+function planHTML(){const a=EXP.adh;const pl=Math.round(a.l.reduce((x,y)=>x+y,0)/14*100),pa=Math.round(a.a.reduce((x,y)=>x+y,0)/14*100);return `<div class="grid g2"><div class="card" style="box-shadow:none"><h3>Plan terapéutico</h3>${tbl(['Componente','Fecha','Estado'],EXP.plan.map(p=>[p[0],p[1],badge(p[2],p[2]==='Pendiente'?'y':p[2]==='Revisar'?'n':'b')]))}<div class="row" style="margin-top:12px"><input id="plT" placeholder="Nuevo objetivo o control" style="flex:1;min-width:160px"><input id="plF" type="date"><button class="btn sm" onclick="xAddPlan()">Agregar</button></div></div><div class="card" style="box-shadow:none"><h3>Control de cumplimiento ${badge('Clic en un día para marcar','n')}</h3><div class="adh"><span></span>${DIAS.map(d=>`<small style="text-align:center;color:var(--mut)">${d}</small>`).join('')}</div>${adhRow('l','Losartán 100 mg')}${adhRow('a','Atorvastatina 20 mg')}${(pl<80||pa<80)?`<div class="al y">Posible baja adherencia en ${[pl<80?'losartán':'',pa<80?'atorvastatina':''].filter(Boolean).join(' y ')}. Se notifica al médico. El agente de seguimiento (M08) puede enviar un recordatorio, pero no modifica el tratamiento.</div>`:'<div class="al g">Adherencia adecuada en ambos medicamentos.</div>'}</div></div>`}
+function tabPlan(){return `<div id="planBox">${planHTML()}</div>`}
+window.xTogAdh=(k,i)=>{EXP.adh[k][i]=EXP.adh[k][i]?0:1;$('#planBox').innerHTML=planHTML()};
+window.xAddPlan=()=>{const t=$('#plT').value.trim();if(!t)return toast('Escriba el objetivo o control');const f=$('#plF').value;EXP.plan.push([t,f?f.split('-').reverse().join('/'):'Sin fecha','Programado']);$('#planBox').innerHTML=planHTML()};
+
+/* ---------- Alergias e interacciones ---------- */
+function algHTML(){return `<div class="grid g2"><div class="card" style="box-shadow:none"><h3>Alergias registradas</h3>${EXP.alg.length?tbl(['Agente','Reacción','Gravedad','Desde',''],EXP.alg.map((a,i)=>[`<b>${esc(a[0])}</b>`,esc(a[1]),badge(a[2],a[2]==='Grave'?'r':a[2]==='Moderada'?'y':'n'),a[3],`<button class="btn sm sec" onclick="xDelAlg(${i})">✕</button>`])):'<p style="color:var(--mut)">Sin alergias registradas.</p>'}<div class="grid g2" style="margin-top:12px"><input id="alA" placeholder="Agente (ej. Sulfas)"><input id="alR" placeholder="Reacción (ej. Rash)"><select id="alG"><option>Leve</option><option selected>Moderada</option><option>Grave</option></select><input id="alY" placeholder="Año" type="number"></div><button class="btn sm" style="margin-top:8px" onclick="xAddAlg()">+ Registrar alergia</button></div><div class="card" style="box-shadow:none"><h3>Revisar un medicamento antes de recetarlo</h3><div class="row"><select id="chkD" style="flex:1">${Object.keys(DRUGS).map(k=>`<option>${k}</option>`).join('')}</select><button class="btn" onclick="xChkDrug()">Revisar</button></div><div id="chkRes" style="margin-top:12px"><p style="color:var(--mut)">Seleccione un medicamento. Se contrasta con las alergias del paciente y con los medicamentos de la receta actual: ${EXP.rx.map(x=>esc(x.m)).join(', ')||'ninguno'}.</p></div><p style="font-size:11.5px;color:var(--mut)">Demostración con reglas de ejemplo. En producción se consulta una fuente clínica validada y licenciada (M28).</p></div></div>`}
+function tabAlg(){return `<div id="algBox">${algHTML()}</div>`}
+window.xAddAlg=()=>{const a=$('#alA').value.trim();if(!a)return toast('Indique el agente');EXP.alg.push([a,$('#alR').value.trim()||'Sin detalle',$('#alG').value,$('#alY').value||'—']);$('#algBox').innerHTML=algHTML();$('#expHead').innerHTML=expHead();EXP.signed=null};
+window.xDelAlg=i=>{EXP.alg.splice(i,1);$('#algBox').innerHTML=algHTML();$('#expHead').innerHTML=expHead()};
+window.xChkDrug=()=>{const d=$('#chkD').value;const rel=intList(d).filter(x=>x[0]===d||x[1]===d);$('#chkRes').innerHTML=rel.length?rel.map(a=>`<div class="al ${sevCls(a[2])}"><b>${esc(a[0])} + ${esc(a[1])}</b> ${badge(a[2],sevCls(a[2]))}<br>${esc(a[3])}</div>`).join(''):`<div class="al g"><b>${esc(d)}</b>: sin alergias ni interacciones detectadas con los datos actuales.</div>`};
+
+/* ---------- Impresión y envío seguro ---------- */
+function docHTML(){
+ const s=EXP.signed,sd='font-family:Georgia,serif;font-size:13px;line-height:1.55;color:#0a1a38';
+ const rows=EXP.rx.map(x=>`<tr><td><b>${esc(x.m)}</b><br>${esc(x.pr)}</td><td>${esc(x.d)}</td><td>${esc(x.v)}</td><td>${esc(x.f)}</td><td>${esc(x.du)}</td></tr>`).join('');
+ const th='style="text-align:left;border-bottom:1px solid #999;padding:5px 6px;font-size:11px"';
+ const nl=t=>esc(t).replace(/\n/g,'<br>');
+ return `<div style="${sd};position:relative">${s?'':'<div style="position:absolute;top:40%;left:12%;font-size:46px;color:rgba(220,38,38,.18);transform:rotate(-18deg);font-weight:700;letter-spacing:4px">BORRADOR · SIN FIRMA</div>'}
+ <div style="text-align:center"><b style="letter-spacing:.14em">NEXUS CLINIC</b><br><small>NEXUS INFINITY CORPORATION · Consultorio médico</small></div><hr style="border:0;border-top:2px solid #00b3a4;margin:10px 0">
+ <div><b>RECETA MÉDICA Y PLAN DE TRATAMIENTO</b></div>
+ <div style="margin:8px 0">Paciente: <b>Carlos Mendoza Rojas</b> · CI 4567890 LP · 45 años<br>Fecha: ${new Date().toLocaleDateString('es-BO')} · Alergias: ${EXP.alg.map(a=>esc(a[0].split(' (')[0])).join(', ')||'ninguna registrada'}<br>Diagnósticos: ${EXP.dx.map(d=>esc(d[0]+' '+d[1])).join('; ')||'—'}</div>
+ <table style="width:100%;border-collapse:collapse"><thead><tr><th ${th}>Medicamento</th><th ${th}>Dosis</th><th ${th}>Vía</th><th ${th}>Frecuencia</th><th ${th}>Duración</th></tr></thead><tbody>${rows||'<tr><td colspan="5">Sin medicamentos</td></tr>'}</tbody></table>
+ <p style="margin-top:10px"><b>Indicaciones:</b><br>${nl(EXP.ind.indic)}</p><p><b>Cuidados:</b><br>${nl(EXP.ind.cuid)}</p><p><b>Recomendaciones:</b> ${nl(EXP.ind.reco)}</p><p><b>Restricciones:</b> ${nl(EXP.ind.rest)}</p>
+ <p><b>Próximo control:</b> 20/11/2026</p>
+ <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:18px"><div><svg width="70" height="70" viewBox="0 0 9 9"><path fill="#0a1a38" d="M0 0h3v3H0zM6 0h3v3H6zM0 6h3v3H0zM4 1h1v2H4zM4 4h2v1H4zM3 5h1v2H3zM6 5h1v1H6zM7 7h2v2H7zM5 7h1v2H5z"/></svg><br><small>Validación por QR</small></div><div style="text-align:right">${s?`<b>${esc(s.by)}</b><br><small>Firmado electrónicamente · ${esc(s.t)}</small>`:'<small>Pendiente de firma del médico</small>'}</div></div></div>`;
+}
+function tabPrint(){return `<div id="prBox">${prHTML()}</div>`}
+function prHTML(){return `<div class="grid g21"><div class="card" style="box-shadow:none"><h3>Vista previa del documento ${EXP.signed?badge('Firmado','g'):badge('Borrador','y')} <button class="btn sm" onclick="xPrint()">🖨 Imprimir</button></h3><div style="border:1px solid var(--line);border-radius:10px;padding:20px;background:#fff">${docHTML()}</div></div><div><div class="card" style="box-shadow:none"><h3>Envío seguro al paciente</h3><div class="field"><label>Canal</label><select id="snCh" onchange="$('#snDe').value=this.value==='Correo cifrado'?'carlos.mendoza@correo.bo':this.value==='WhatsApp'?'+591 71234567':'Portal del paciente (M16)'"><option>Correo cifrado</option><option>WhatsApp</option><option>Portal del paciente</option></select></div><div class="field"><label>Destino</label><input id="snDe" value="carlos.mendoza@correo.bo"></div><ul class="ck" style="font-size:12.5px"><li>Enlace personal con vencimiento de 48 horas</li><li>Código de verificación de identidad al abrir</li><li>Solo se envía si el médico firmó</li><li>Cada envío y apertura queda en la bitácora (M18)</li></ul><button class="btn" onclick="xSend()">Enviar de forma segura</button></div><div class="card" style="box-shadow:none;margin-top:16px"><h3>Registro de envíos</h3>${EXP.log.length?tbl(['Hora','Canal','Destino','Estado'],EXP.log.map(l=>[l[0],l[1],l[2],badge(l[3],'g')])):'<p style="color:var(--mut)">Sin envíos todavía.</p>'}</div></div></div>`}
+window.xPrint=()=>{const f=document.createElement('iframe');f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(f);f.contentDocument.write('<html><head><meta charset="utf-8"><title>Receta</title></head><body style="padding:24px">'+docHTML()+'</body></html>');f.contentDocument.close();setTimeout(()=>{f.contentWindow.focus();f.contentWindow.print();setTimeout(()=>f.remove(),1500)},300)};
+window.xSend=()=>{if(!EXP.signed)return toast('El documento debe estar firmado por el médico antes de enviarlo');const ch=$('#snCh').value,de=$('#snDe').value;const m=ch==='Correo cifrado'?de.replace(/^(.).*(@.*)$/,'$1***$2'):ch==='WhatsApp'?de.slice(0,5)+'•••••'+de.slice(-2):de;EXP.log.unshift([hoy(),ch,m,'Enviado · expira en 48 h']);$('#prBox').innerHTML=prHTML();toast('Enlace seguro enviado. El paciente deberá verificar su identidad.')};
+
+/* ===== M02: Historia clínica electrónica ampliada ===== */
+const HCE={status:'Abierta',ver:1,
+ motivo:'',enf:'',
+ sint:{cefalea:0,mareo:0,dolor_toracico:0,disnea:0,palpitaciones:0,edema:0,vision:0,fiebre:0},sintTxt:'',
+ antP:'Hipertensión arterial desde marzo de 2026. Apendicectomía en 2004.',
+ antF:'Padre: infarto de miocardio a los 58 años. Madre: diabetes tipo 2.',
+ hab:'No fuma. Alcohol ocasional. Sedentario.',
+ exam:'',vit:{sis:148,dia:94,fc:78,fr:16,t:36.6,spo2:97,peso:82,talla:1.74},
+ eval:'',plan:'',esp:'Medicina general',espv:{},
+ signed:null,closed:null,hist:[],aud:[],draft:null,tr:{consent:false,n:0,run:false,purge:true,purged:false}};
+const SINT={cefalea:'Cefalea',mareo:'Mareo',dolor_toracico:'Dolor torácico',disnea:'Falta de aire',palpitaciones:'Palpitaciones',edema:'Hinchazón de piernas',vision:'Visión borrosa',fiebre:'Fiebre'};
+const FLBL={motivo:'Motivo de consulta',enf:'Enfermedad actual',antP:'Antecedentes personales',antF:'Antecedentes familiares',exam:'Examen físico',eval:'Evaluación clínica',plan:'Plan terapéutico'};
+const VITS=[['sis','PA sistólica','mmHg'],['dia','PA diastólica','mmHg'],['fc','Frec. cardíaca','lpm'],['fr','Frec. respiratoria','rpm'],['t','Temperatura','°C'],['spo2','SpO₂','%'],['peso','Peso','kg'],['talla','Talla','m']];
+const lockd=()=>HCE.signed?'disabled':'';
+const hF=(k,l,r,ph)=>`<div class="field"><label>${l}</label><textarea rows="${r}" ${lockd()} placeholder="${ph||''}" oninput="HCE.${k}=this.value">${esc(HCE[k])}</textarea></div>`;
+const paCat=(s,d)=>s>=180||d>=120?['Crisis hipertensiva: atención inmediata','r']:s>=140||d>=90?['Hipertensión (rango grado 1–2)','y']:s>=130||d>=80?['Presión elevada','b']:['Normal','g'];
+const imc=()=>HCE.vit.talla>0?HCE.vit.peso/(HCE.vit.talla*HCE.vit.talla):0;
+function hVitInfo(){const v=HCE.vit,c=paCat(v.sis,v.dia),m=imc();return `${badge('PA '+v.sis+'/'+v.dia+': '+c[0],c[1])} ${badge('IMC '+m.toFixed(1)+(m>=30?' · obesidad':m>=25?' · sobrepeso':' · normal'),m>=30?'r':m>=25?'y':'g')} ${v.spo2<94?badge('SpO₂ baja','r'):''} ${v.t>=38?badge('Fiebre','r'):''}`}
+window.hVit=(k,v)=>{HCE.vit[k]=parseFloat(String(v).replace(',','.'))||0;$('#vitInfo').innerHTML=hVitInfo()};
+const stepper=()=>{const st=['Abierta','Firmada','Cerrada'],i=st.indexOf(HCE.status);return st.map((s,k)=>badge((k+1)+'. '+s,k<=i?(k===i?'g':'t'):'n')).join(' → ')};
+function hHead(){return `<div class="pt-head"><div class="avatar">CM</div><div style="flex:1"><h2 style="font-size:18px">Carlos Mendoza Rojas</h2><span style="color:var(--mut)">CI 4567890 LP · 45 años · HC N.° 000482 · Consulta del ${new Date().toLocaleDateString('es-BO')} · Dra. Valeria Quispe</span></div><div style="text-align:right">${stepper()}<br><small style="color:var(--mut)">Versión del registro: v${HCE.ver}</small></div></div>`}
+
+VIEWS.M02=()=>card('Consulta en curso',`<div id="hHead">${hHead()}</div>`)+`<div style="height:16px"></div>`+card('Registro clínico',tabs('hc',['Consulta','Evaluación y plan','Evolución y seguimiento','Plantillas por especialidad','IA: transcripción y borrador','Firma, correcciones y cierre'],i=>[hTabCons,hTabEval,hTabEvo,hTabEsp,hTabIa,hTabSign][i]()));
+const hRe=()=>{const h=$('#hHead');if(h)h.innerHTML=hHead()};
+
+/* ---------- 1. Consulta ---------- */
+function hConsHTML(){
+ return `<div class="row" style="margin-bottom:12px">${HCE.signed?badge('Registro firmado: solo se admiten correcciones trazables','y'):'<button class="btn sm sec" onclick="hExample()">Cargar ejemplo de consulta completa</button>'}</div>
+ <div class="grid g2"><div>
+  <div class="card" style="box-shadow:none"><h3>Motivo de consulta y enfermedad actual</h3>${hF('motivo','Motivo de consulta',2,'Ej.: Control de presión arterial')}${hF('enf','Enfermedad actual',5,'Inicio, evolución, factores que agravan o alivian, tratamiento previo')}</div>
+  <div class="card" style="box-shadow:none;margin-top:16px"><h3>Antecedentes</h3>${hF('antP','Personales',2)}${hF('antF','Familiares',2)}${hF('hab','Hábitos',2)}
+   <div style="font-size:12.5px"><b>Alergias registradas:</b> ${EXP.alg.map(a=>badge(a[0].split(' (')[0],'r')).join(' ')||'ninguna'}<br><b style="display:inline-block;margin-top:6px">Medicación actual:</b> ${EXP.rx.map(x=>badge(x.m,'t')).join(' ')||'ninguna'}</div></div>
+ </div><div>
+  <div class="card" style="box-shadow:none"><h3>Síntomas</h3><div class="grid g2" style="gap:6px">${Object.keys(SINT).map(k=>`<label style="font-size:13px"><input type="checkbox" ${HCE.sint[k]?'checked':''} ${lockd()} onchange="HCE.sint['${k}']=this.checked?1:0"> ${SINT[k]}</label>`).join('')}</div><div class="field" style="margin-top:10px"><label>Detalle de los síntomas</label><textarea rows="2" ${lockd()} oninput="HCE.sintTxt=this.value">${esc(HCE.sintTxt)}</textarea></div></div>
+  <div class="card" style="box-shadow:none;margin-top:16px"><h3>Signos vitales y examen físico</h3><div class="grid g4" style="gap:8px">${VITS.map(v=>`<div class="field" style="margin:0"><label>${v[1]} (${v[2]})</label><input value="${HCE.vit[v[0]]}" ${lockd()} oninput="hVit('${v[0]}',this.value)"></div>`).join('')}</div><div id="vitInfo" style="margin:10px 0">${hVitInfo()}</div>${hF('exam','Examen físico',4,'General, cardiopulmonar, abdomen, extremidades, neurológico')}</div>
+ </div></div>`}
+function hTabCons(){return `<div id="hCons">${hConsHTML()}</div>`}
+const hReCons=()=>{const e=$('#hCons');if(e)e.innerHTML=hConsHTML()};
+window.hExample=()=>{if(HCE.signed)return;Object.assign(HCE,{motivo:'Control de hipertensión arterial. Cefalea matutina de unas 2 semanas, intensidad 4/10, que cede con el desayuno.',enf:'Paciente hipertenso en tratamiento con losartán. Refiere olvidos ocasionales de dosis, sobre todo de la estatina nocturna. Tomó ibuprofeno en 3 ocasiones por la cefalea. Mareo al incorporarse rápido en 2 ocasiones. Niega dolor torácico y falta de aire.',sintTxt:'Cefalea matutina, mareo ortostático ocasional.',exam:'Corazón rítmico, sin soplos. Pulmones limpios. Abdomen blando. Sin edemas.',eval:'HTA con control subóptimo por adherencia irregular y uso reciente de AINE. Dislipidemia en seguimiento.',plan:'Ajustar losartán a 100 mg/día. Solicitar perfil lipídico y creatinina. Control en 1 mes. Evitar antiinflamatorios.'});HCE.sint={cefalea:1,mareo:1,dolor_toracico:0,disnea:0,palpitaciones:0,edema:0,vision:0,fiebre:0};hReCons();toast('Ejemplo cargado. Revise las pestañas siguientes.')};
+
+/* ---------- 2. Evaluación y plan ---------- */
+function hEvalHTML(){return `<div class="grid g2"><div>${hF('eval','Evaluación clínica',5,'Impresión clínica y razonamiento')}<div class="card" style="box-shadow:none"><h3>Diagnósticos (del catálogo codificado)</h3>${EXP.dx.length?tbl(['Código','Diagnóstico','Tipo'],EXP.dx.map(d=>[`<b>${d[0]}</b>`,d[1],badge(d[2],d[2]==='Principal'?'g':'n')])):'<p style="color:var(--mut)">Sin diagnósticos. Regístrelos en M03 · Diagnósticos y codificación.</p>'}<button class="btn sm sec" style="margin-top:10px" onclick="go('M03')">Gestionar en M03</button></div></div><div>${hF('plan','Plan terapéutico',5,'Tratamiento, estudios, indicaciones y control')}<div class="card" style="box-shadow:none"><h3>Vinculado con la receta y el plan (M03)</h3>${tbl(['Medicamento','Dosis','Frecuencia'],EXP.rx.map(x=>[`<b>${esc(x.m)}</b>`,esc(x.d),esc(x.f)]))}<div style="margin-top:10px">${EXP.plan.map(p=>`<div style="font-size:12.5px;margin-bottom:5px">• ${esc(p[0])} <span style="color:var(--mut)">(${esc(p[1])})</span></div>`).join('')}</div></div></div></div>`}
+function hTabEval(){return `<div id="hEval">${hEvalHTML()}</div>`}
+
+/* ---------- 3. Evolución y seguimiento longitudinal ---------- */
+function hTabEvo(){
+ const v=HCE.vit,cur=v.sis+'/'+v.dia;
+ const rows=[['11/11/2025','Primera consulta · control general','—','132/84','86 kg','Apertura de historia clínica'],['02/03/2026','Cefalea','I10','156/98','85 kg','Diagnóstico de HTA. Inicia losartán 50 mg'],['14/06/2026','Chequeo general','I10 · E78.5','150/96','84 kg','Perfil lipídico alterado (LDL 182 mg/dl)'],['09/09/2026','Control de HTA','I10 · E78.5','142/90','83 kg','Continúa losartán 50 mg'],['23/10/2026','Control de HTA (actual)',EXP.dx.map(d=>d[0]).join(' · ')||'—',cur,v.peso+' kg',HCE.closed?'Consulta cerrada':HCE.signed?'Firmada':'En curso']];
+ const m=imc();
+ return `<div class="grid g2"><div class="card" style="box-shadow:none"><h3>Presión sistólica (mmHg)</h3>${line([132,156,150,142,v.sis],['Nov 25','Mar','Jun','Sep','Hoy'],'#dc2626',140,110,170)}</div><div class="card" style="box-shadow:none"><h3>Peso (kg)</h3>${line([86,85,84,83,v.peso],['Nov 25','Mar','Jun','Sep','Hoy'],'#2563eb',140,78,90)}</div></div>
+ <div class="card" style="box-shadow:none;margin-top:16px"><h3>Evolución médica por consulta</h3>${tbl(['Fecha','Motivo','Diagnósticos','PA','Peso','Evolución'],rows)}</div>
+ <div class="grid g2" style="margin-top:16px"><div class="card" style="box-shadow:none"><h3>Problemas activos</h3>${tbl(['Problema','Desde','Estado'],[['Hipertensión arterial (I10)','03/2026',badge('Control subóptimo','y')],['Dislipidemia (E78.5)','06/2026',badge('LDL 182 → 168 mg/dl','y')],['Sobrepeso','—',badge('IMC '+m.toFixed(1),'y')]])}</div><div class="card" style="box-shadow:none"><h3>Seguimiento pendiente</h3><ul class="ck"><li>Control clínico y laboratorio: 20/11/2026</li><li>Presión domiciliaria 7 días antes del control</li><li>Revisar adherencia a atorvastatina (${Math.round(EXP.adh.a.reduce((a,b)=>a+b,0)/14*100)}% en 14 días)</li></ul></div></div>`}
+
+/* ---------- 4. Plantillas por especialidad ---------- */
+const OPC10=['0','1','2','3','4','5','6','7','8','9','10'];
+const ESP={
+'Medicina general':{d:'Plantilla base para consulta general.',f:[['Revisión por sistemas','ta'],['Medidas de prevención y tamizaje','ta']],ej:['Sin hallazgos relevantes salvo lo anotado en síntomas.','Control anual de lípidos y glucosa. Vacuna de influenza pendiente.']},
+'Cardiología':{d:'Escalas y datos propios de la consulta cardiológica.',f:[['Clase funcional NYHA','sel',['I','II','III','IV']],['Características del dolor torácico','ta'],['Factores de riesgo cardiovascular','tx'],['ECG: ritmo, frecuencia, intervalos','tx'],['Auscultación cardíaca','tx']],ej:['II','Opresión retroesternal al subir escaleras, cede con reposo en 5 minutos.','HTA, dislipidemia, padre con infarto a los 58 años.','Ritmo sinusal, FC 78 lpm, PR y QRS normales.','Ruidos cardíacos rítmicos, sin soplos.']},
+'Pediatría':{d:'Crecimiento, desarrollo y vacunas.',f:[['Peso (kg) y percentil','tx'],['Talla (cm) y percentil','tx'],['Perímetro cefálico (cm)','tx'],['Alimentación','tx'],['Esquema de vacunas','sel',['Al día','Incompleto','Sin carnet']],['Desarrollo psicomotor','ta']],ej:['11,2 kg (P50)','85 cm (P50)','48 cm','Come 4 veces al día, lactancia complementaria.','Al día','Camina solo, dice unas 10 palabras y sigue órdenes simples.']},
+'Ginecología':{d:'Antecedentes gineco-obstétricos y controles.',f:[['FUM','tx'],['Fórmula obstétrica (G P C A)','tx'],['Método anticonceptivo','tx'],['Última citología','tx'],['Dolor pélvico o flujo','ta']],ej:['08/05/2026','G2 P1 C0 A0','Ninguno actual','Hace 14 meses, normal','Sin dolor pélvico ni flujo anormal.']},
+'Odontología':{d:'Hallazgos dentales y periodontales.',f:[['Piezas afectadas','tx'],['Dolor (escala 0–10)','sel',OPC10],['Hallazgos periodontales','ta'],['Higiene oral','sel',['Buena','Regular','Deficiente']]],ej:['36','7','Sangrado al sondaje en la zona posterior inferior.','Regular']},
+'Traumatología':{d:'Lesiones del aparato locomotor.',f:[['Zona afectada','tx'],['Mecanismo de lesión','tx'],['Dolor (EVA 0–10)','sel',OPC10],['Rango de movilidad','ta'],['Signos neurovasculares distales','tx']],ej:['Rodilla derecha','Torsión jugando fútbol hace 3 días','6','Flexión limitada a 100°, extensión completa.','Pulsos distales presentes, sensibilidad normal.']}
+};
+function hEspHTML(){const e=ESP[HCE.esp],vals=HCE.espv[HCE.esp]||{};return `<div class="row" style="margin-bottom:12px"><b>Especialidad</b><select onchange="hSetEsp(this.value)">${Object.keys(ESP).map(k=>`<option ${k===HCE.esp?'selected':''}>${k}</option>`).join('')}</select><span style="color:var(--mut);font-size:12.5px">${e.d}</span><button class="btn sm sec" onclick="hEspEx()">Cargar ejemplo</button></div><div class="card" style="box-shadow:none"><h3>Campos de ${HCE.esp} ${badge('Se guardan en el registro','t')}</h3><div class="grid g2">${e.f.map((f,i)=>{const val=vals[f[0]]||'';const dis=lockd();return `<div class="field"><label>${f[0]}</label>${f[1]==='sel'?`<select ${dis} onchange="hEspSet('${i}',this.value)"><option value="">Seleccione…</option>${f[2].map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select>`:f[1]==='ta'?`<textarea rows="2" ${dis} oninput="hEspSet('${i}',this.value)">${esc(val)}</textarea>`:`<input ${dis} value="${esc(val)}" oninput="hEspSet('${i}',this.value)">`}</div>`}).join('')}</div></div>`}
+function hTabEsp(){return `<div id="hEsp">${hEspHTML()}</div>`}
+window.hSetEsp=k=>{HCE.esp=k;$('#hEsp').innerHTML=hEspHTML()};
+window.hEspSet=(i,v)=>{const f=ESP[HCE.esp].f[+i];(HCE.espv[HCE.esp]=HCE.espv[HCE.esp]||{})[f[0]]=v};
+window.hEspEx=()=>{if(HCE.signed)return toast('Registro firmado: use una corrección');const e=ESP[HCE.esp];HCE.espv[HCE.esp]={};e.f.forEach((f,i)=>HCE.espv[HCE.esp][f[0]]=e.ej[i]);$('#hEsp').innerHTML=hEspHTML()};
+
+/* ---------- 5. IA: transcripción y borrador ---------- */
+const TRANS=[
+['Dra.','Buenos días, Carlos. ¿Qué lo trae hoy?'],
+['Paciente','Vengo a mi control de la presión. Estos días me dio dolor de cabeza en las mañanas.'],
+['Dra.','¿Desde cuándo y qué tan fuerte es?'],
+['Paciente','Hace unas dos semanas, como un 4 sobre 10. Se me calma después del desayuno.'],
+['Dra.','¿Ha tomado el losartán todos los días?'],
+['Paciente','Casi todos. Me olvido algunas noches, sobre todo de la pastilla del colesterol.'],
+['Dra.','¿Dolor en el pecho, falta de aire o mareos?'],
+['Paciente','Dolor de pecho no, ni falta de aire. Un poco de mareo al levantarme rápido, un par de veces.'],
+['Dra.','¿Toma algún antiinflamatorio?'],
+['Paciente','Tomé ibuprofeno unas tres veces por el dolor de cabeza.'],
+['Dra.','¿Es alérgico a algún medicamento?'],
+['Paciente','A la penicilina, me salió urticaria hace años.'],
+['Dra.','(Dictado) Presión 148 sobre 94, pulso 78. Corazón rítmico sin soplos, pulmones limpios, sin edemas.'],
+['Dra.','(Dictado) Voy a ajustar el losartán a 100 miligramos, pedimos perfil lipídico y creatinina, control en un mes. Evite los antiinflamatorios.']
+];
+const DRAFT=[
+{sec:'motivo',lbl:'Motivo de consulta',txt:'Control de hipertensión arterial. Cefalea matutina de unas 2 semanas, intensidad 4/10, que cede con el desayuno.',src:[2,4]},
+{sec:'enf',lbl:'Enfermedad actual',txt:'Paciente hipertenso en tratamiento con losartán. Refiere olvidos ocasionales de dosis, sobre todo de la estatina nocturna. Tomó ibuprofeno en 3 ocasiones por la cefalea. Mareo al incorporarse rápido en 2 ocasiones. Niega dolor torácico y falta de aire.',src:[6,8,10]},
+{sec:'sint',lbl:'Síntomas',txt:'Cefalea matutina y mareo ortostático ocasional. Niega dolor torácico y falta de aire.',src:[2,8],set:{cefalea:1,mareo:1,dolor_toracico:0,disnea:0}},
+{sec:'exam',lbl:'Examen físico',txt:'Corazón rítmico, sin soplos. Pulmones limpios. Sin edemas.',src:[13]},
+{sec:'plan',lbl:'Plan (dictado por el médico)',txt:'Ajustar losartán a 100 mg/día. Solicitar perfil lipídico y creatinina. Control en 1 mes. Evitar antiinflamatorios.',src:[14]}
+];
+const SECMAP={motivo:'motivo',enf:'enf',exam:'exam',plan:'plan'};
+function iaFlags(n){
+ const f=[],v=HCE.vit;
+ if(n>=1)f.push(['Pendiente','Evaluación clínica y diagnósticos no fueron dictados. Los define el médico; la IA no los propone.']);
+ if(n>=1)f.push(['Pendiente','No se conversó sobre tabaquismo ni antecedentes familiares. Se mantiene lo registrado antes.']);
+ if(n>=6){const l=Math.round(EXP.adh.l.reduce((a,b)=>a+b,0)/14*100),a=Math.round(EXP.adh.a.reduce((a,b)=>a+b,0)/14*100);f.push(['Verificar','El paciente dijo "casi todos los días". El registro de cumplimiento muestra '+l+'% en losartán y '+a+'% en atorvastatina.'])}
+ if(n>=12)f.push(EXP.alg.some(a=>/penicilin/i.test(a[0]))?['Coincide','La alergia a penicilina mencionada ya está registrada en el expediente.']:['Verificar','Se mencionó alergia a penicilina que no está registrada. Revise el expediente.']);
+ if(n>=13)f.push(v.sis===148&&v.dia===94&&v.fc===78?['Coincide','Presión 148/94 y pulso 78 dictados coinciden con los signos vitales registrados.']:['Verificar','Los valores dictados (148/94, pulso 78) difieren de los signos vitales registrados ('+v.sis+'/'+v.dia+', FC '+v.fc+').']);
+ if(n>=14){const r=EXP.rx.find(x=>x.m==='Losartán potásico');f.push(r&&/100\s*mg/.test(r.d)?['Coincide','La dosis de losartán dictada (100 mg) coincide con la receta actual.']:['Verificar','La dosis de losartán dictada (100 mg) no coincide con la receta actual'+(r?' ('+r.d+')':' (no hay losartán en la receta)')+'.'])}
+ return f}
+function hIaHTML(){
+ const t=HCE.tr,d=HCE.draft;
+ const left=`<div class="card" style="box-shadow:none"><h3>Transcripción de la conversación ${t.run?badge('● Transcribiendo','r'):t.n?badge('Detenida','n'):''}</h3>
+  <label style="font-size:13px;display:block;margin-bottom:8px"><input type="checkbox" ${t.consent?'checked':''} ${t.run?'disabled':''} onchange="HCE.tr.consent=this.checked"> El paciente fue informado y <b>autorizó</b> la transcripción de esta consulta</label>
+  <div class="row" style="margin-bottom:10px"><button class="btn sm" onclick="iaStart()" ${t.run?'disabled':''}>▶ Iniciar transcripción</button><button class="btn sm sec" onclick="iaStop()">■ Detener y organizar notas</button></div>
+  <div class="msgs" style="height:330px">${t.purged?'<div class="al y">Transcripción eliminada al incorporar el borrador. El audio nunca se almacena.</div>':TRANS.slice(0,t.n).map((l,i)=>`<div class="m ${l[0]==='Paciente'?'a':'u'}"><small style="opacity:.7">${i+1} · ${l[0]}</small><br>${esc(l[1])}</div>`).join('')||'<p style="color:var(--mut)">Marque la autorización del paciente e inicie la transcripción.</p>'}</div>
+  <label style="font-size:12.5px;display:block;margin-top:8px"><input type="checkbox" ${t.purge?'checked':''} onchange="HCE.tr.purge=this.checked"> Eliminar la transcripción al incorporar el borrador</label></div>`;
+ let right;
+ if(!d)right=`<div class="card" style="box-shadow:none"><h3>Borrador de la IA ${badge('Requiere revisión del médico','y')}</h3><p style="color:var(--mut)">Al detener la transcripción, la IA organiza las notas en secciones clínicas y las propone como borrador. Nada pasa al expediente sin la aceptación del médico.</p></div>`;
+ else{const pend=d.items.filter(i=>i.st==='pend').length;
+  right=`<div class="card" style="box-shadow:none"><h3>Borrador de la IA ${d.done?badge('Incorporado tras revisión','g'):badge(pend+' por revisar','y')}</h3>
+  ${d.items.map((it,k)=>`<div class="al ${it.st==='ok'?'g':it.st==='rej'?'r':'y'}"><div class="row" style="justify-content:space-between"><b>${it.lbl}</b>${badge(it.st==='ok'?'Aceptado':it.st==='rej'?'Rechazado':'Por revisar',it.st==='ok'?'g':it.st==='rej'?'r':'y')}</div>${it.edit?`<textarea id="ed${k}" rows="3" style="margin:6px 0">${esc(it.txt)}</textarea><button class="btn sm" onclick="iaSaveEd(${k})">Guardar edición</button>`:`<div style="margin:6px 0">${esc(it.txt)}</div>`}<small style="color:var(--mut)">Origen: líneas ${it.src.join(', ')} de la transcripción</small>${d.done?'':`<div class="row" style="margin-top:6px"><button class="btn sm" onclick="iaSet(${k},'ok')">Aceptar</button><button class="btn sm sec" onclick="iaEdit(${k})">Editar</button><button class="btn sm sec" onclick="iaSet(${k},'rej')">Rechazar</button></div>`}</div>`).join('')}
+  <h3 style="margin-top:14px">Control de coherencia</h3>${d.flags.map(f=>`<div class="al ${f[0]==='Coincide'?'g':f[0]==='Verificar'?'r':'b'}">${badge(f[0],f[0]==='Coincide'?'g':f[0]==='Verificar'?'y':'b')} ${esc(f[1])}</div>`).join('')}
+  ${d.done?'':`<button class="btn" onclick="iaIncorp()">Incorporar lo aceptado al expediente</button>`}
+  <p style="font-size:11.5px;color:var(--mut);margin-top:8px"><b>La IA solo transcribe y organiza.</b> No diagnostica, no prescribe y no firma. El médico decide qué se incorpora.</p></div>`}
+ return `<div class="grid g2">${left}${right}</div>`}
+function hTabIa(){return `<div id="hIa">${hIaHTML()}</div>`}
+const iaRe=()=>{const e=$('#hIa');if(e)e.innerHTML=hIaHTML();return !!e};
+let iaTimer=null;
+window.iaStart=()=>{const t=HCE.tr;if(!t.consent)return toast('Debe confirmarse la autorización del paciente');if(HCE.signed)return toast('El registro está firmado');t.run=true;t.purged=false;if(t.n>=TRANS.length)t.n=0;HCE.draft=null;const step=()=>{if(!t.run)return;if(!iaRe()){t.run=false;return}t.n++;iaRe();if(t.n>=TRANS.length){t.run=false;iaOrganize();return}iaTimer=setTimeout(step,650)};iaRe();iaTimer=setTimeout(step,400)};
+window.iaStop=()=>{const t=HCE.tr;if(!t.n)return toast('Aún no hay conversación transcrita');t.run=false;clearTimeout(iaTimer);iaOrganize()};
+function iaOrganize(){const n=HCE.tr.n;const items=DRAFT.filter(i=>Math.max(...i.src)<=n).map(i=>Object.assign({st:'pend',edit:false},i));HCE.draft={items,flags:iaFlags(n),done:false};iaRe();toast('Borrador listo para revisión del médico')}
+window.iaSet=(k,s)=>{HCE.draft.items[k].st=s;HCE.draft.items[k].edit=false;iaRe()};
+window.iaEdit=k=>{HCE.draft.items[k].edit=true;iaRe()};
+window.iaSaveEd=k=>{HCE.draft.items[k].txt=$('#ed'+k).value;HCE.draft.items[k].edit=false;HCE.draft.items[k].st='ok';iaRe()};
+window.iaIncorp=()=>{const d=HCE.draft;if(!d)return;if(HCE.signed)return toast('Registro firmado: use una corrección');if(d.items.some(i=>i.st==='pend'))return toast('Revise todas las propuestas: aceptar, editar o rechazar');
+ const ok=d.items.filter(i=>i.st==='ok'),rj=d.items.length-ok.length;
+ ok.forEach(i=>{if(i.sec==='sint'){Object.assign(HCE.sint,i.set);HCE.sintTxt=(HCE.sintTxt?HCE.sintTxt+'\n':'')+i.txt}else{const k=SECMAP[i.sec];HCE[k]=(HCE[k]?HCE[k]+'\n':'')+i.txt}});
+ d.done=true;if(HCE.tr.purge)HCE.tr.purged=true;
+ HCE.aud.push({t:hoy(),by:'Dra. Valeria Quispe',x:'Incorporó '+ok.length+' propuesta(s) del borrador de IA y rechazó '+rj+'. Transcripción '+(HCE.tr.purge?'eliminada':'conservada')+'.'});
+ iaRe();toast('Borrador incorporado al expediente tras la revisión médica')};
+
+/* ---------- 6. Firma, correcciones trazables y cierre ---------- */
+function hMissing(){const m=[];if(!HCE.motivo.trim())m.push('motivo de consulta');if(!HCE.enf.trim())m.push('enfermedad actual');if(!HCE.exam.trim())m.push('examen físico');if(!HCE.vit.sis||!HCE.vit.fc)m.push('signos vitales');if(!EXP.dx.length)m.push('diagnóstico');if(!HCE.plan.trim())m.push('plan terapéutico');if(HCE.draft&&!HCE.draft.done&&HCE.draft.items.some(i=>i.st==='pend'))m.push('revisión del borrador de la IA');return m}
+function hSignHTML(){
+ const m=hMissing();
+ const chk=[['Motivo y enfermedad actual',HCE.motivo.trim()&&HCE.enf.trim()],['Signos vitales',HCE.vit.sis&&HCE.vit.fc],['Examen físico',HCE.exam.trim()],['Diagnósticos codificados',EXP.dx.length],['Plan terapéutico',HCE.plan.trim()],['Borrador de IA revisado',!(HCE.draft&&!HCE.draft.done&&HCE.draft.items.some(i=>i.st==='pend'))]];
+ const sg=HCE.signed;
+ const fl=Object.keys(FLBL);
+ return `<div class="grid g2"><div><div class="card" style="box-shadow:none"><h3>Validación previa ${stepper()}</h3>${tbl(['Requisito','Estado'],chk.map(c=>[c[0],c[1]?badge('Completo','g'):badge('Falta','r')]))}
+ <div style="margin-top:14px">${!sg?`<div class="row"><label style="font-size:13px"><input type="checkbox" id="hChk"> Declaro haber revisado el contenido del registro</label></div><div class="row" style="margin-top:8px"><input id="hPin" type="password" maxlength="4" placeholder="PIN (4 dígitos)" style="width:150px"><button class="btn dk" onclick="hSign()">Firmar consulta</button></div><p style="font-size:11.5px;color:var(--mut);margin-top:6px">Demo: use cualquier PIN de 4 dígitos. La firma es un acto exclusivo del médico.</p>`:`<div class="al g">Firmada por <b>${esc(sg.by)}</b> · ${esc(sg.t)}</div>${HCE.closed?`<div class="al b">Consulta cerrada · ${esc(HCE.closed.t)}</div>`:`<button class="btn" onclick="hClose()">Cerrar consulta</button>`}`}</div></div>
+ ${sg?`<div class="card" style="box-shadow:none;margin-top:16px"><h3>Registrar corrección ${badge('Se conserva el original','t')}</h3><div class="field"><label>Campo a corregir</label><select id="coF" onchange="hCoFill()">${fl.map(k=>`<option value="${k}">${FLBL[k]}</option>`).join('')}</select></div><div class="field"><label>Texto corregido</label><textarea id="coT" rows="3">${esc(HCE[fl[0]])}</textarea></div><div class="field"><label>Motivo de la corrección (obligatorio)</label><input id="coM" placeholder="Ej.: Error de transcripción de la intensidad del dolor"></div><button class="btn" onclick="hCorr()">Registrar corrección</button></div>`:''}
+ </div><div><div class="card" style="box-shadow:none"><h3>Historial de versiones y correcciones</h3>${HCE.hist.length?tbl(['Ver.','Fecha','Usuario','Acción','Detalle'],HCE.hist.map(h=>[`v${h.v}`,h.t,esc(h.by),esc(h.a),h.c?`<b>${esc(h.c)}</b><br><small style="color:var(--mut)">Antes: ${esc(String(h.antes).slice(0,80))}</small><br><small>Ahora: ${esc(String(h.desp).slice(0,80))}</small><br><small style="color:var(--mut)">Motivo: ${esc(h.mot)}</small>`:'—'])):'<p style="color:var(--mut)">Sin versiones registradas. La primera versión se crea al firmar.</p>'}</div>
+ <div class="card" style="box-shadow:none;margin-top:16px"><h3>Bitácora de auditoría (M18)</h3>${HCE.aud.length||HCE.hist.length?tbl(['Fecha','Usuario','Evento'],[...HCE.aud.map(a=>[a.t,a.by,esc(a.x)]),...HCE.hist.map(h=>[h.t,h.by,esc(h.a)])]):'<p style="color:var(--mut)">Sin eventos todavía.</p>'}</div></div></div>`}
+function hTabSign(){return `<div id="hSign">${hSignHTML()}</div>`}
+const hReSign=()=>{const e=$('#hSign');if(e)e.innerHTML=hSignHTML();hRe()};
+window.hSign=()=>{const m=hMissing();if(m.length)return toast('Faltan: '+m.join(', '));if(!$('#hChk').checked)return toast('Confirme que revisó el registro');if(!/^\d{4}$/.test($('#hPin').value))return toast('Ingrese su PIN de 4 dígitos');HCE.signed={by:'Dra. Valeria Quispe · MP-4821',t:hoy()};HCE.status='Firmada';HCE.hist.push({v:1,t:hoy(),by:'Dra. Valeria Quispe',a:'Firma profesional de la consulta'});hReSign();toast('Consulta firmada. Desde ahora solo se admiten correcciones trazables.')};
+window.hClose=()=>{if(!HCE.signed)return toast('Primero debe firmarse la consulta');HCE.closed={t:hoy()};HCE.status='Cerrada';HCE.hist.push({v:HCE.ver,t:hoy(),by:'Dra. Valeria Quispe',a:'Cierre de consulta'});hReSign();toast('Consulta cerrada')};
+window.hCoFill=()=>{$('#coT').value=HCE[$('#coF').value]};
+window.hCorr=()=>{const f=$('#coF').value,t=$('#coT').value.trim(),w=$('#coM').value.trim();if(!t)return toast('El texto corregido no puede quedar vacío');if(t===HCE[f].trim())return toast('No hay cambios respecto al texto actual');if(w.length<5)return toast('Indique el motivo de la corrección');const antes=HCE[f];HCE.ver++;HCE.hist.push({v:HCE.ver,t:hoy(),by:'Dra. Valeria Quispe',a:'Corrección posterior a la firma',c:FLBL[f],antes,desp:t,mot:w});HCE[f]=t;hReSign();toast('Corrección registrada como v'+HCE.ver+'. El texto original se conserva en el historial.')};
+
+VIEWS.M04=()=>`<div class="grid g4" style="margin-bottom:16px">${kpi('Presión arterial','148/94','mmHg · Elevada','down')}${kpi('Frecuencia cardíaca','78','lpm · Normal','up')}${kpi('Saturación O₂','97%','Normal','up')}${kpi('IMC','27,1','Sobrepeso','')}</div><div class="grid g2">${card('Registrar signos vitales',`<div class="grid g2"><div class="field"><label>Sistólica</label><input id="sis" type="number" value="148"></div><div class="field"><label>Diastólica</label><input id="dia" type="number" value="94"></div><div class="field"><label>Peso (kg)</label><input type="number" value="82"></div><div class="field"><label>Talla (m)</label><input type="number" value="1.74"></div></div><div id="paR">${badge('Hipertensión grado 1','y')}</div><br><button class="btn" onclick="chkPA()">Evaluar y guardar</button>`)}${card('Tendencia de presión sistólica',line([156,152,150,142,145,148],['Mar','Abr','May','Jun','Sep','Oct'],'#dc2626',150,120,170))}</div>`;
+window.chkPA=()=>{const s=+$('#sis').value,d=+$('#dia').value;let t=['Normal','g'];if(s>=180||d>=120)t=['Crisis hipertensiva · atención inmediata','r'];else if(s>=140||d>=90)t=['Hipertensión grado 1–2','y'];else if(s>=130||d>=80)t=['Elevada','b'];$('#paR').innerHTML=badge(t[0],t[1]);toast('Signos vitales guardados (demo)')};
+
+VIEWS.M05=()=>`<div class="grid g21">${card('Órdenes y resultados',tbl(['N.°','Paciente','Estudio','Solicitada','Estado','Resultado'],[
+['OM-1021','Carlos Mendoza','Perfil lipídico','23/10',badge('Resultado listo','g'),`${badge('LDL 168 ↑','r')} ${act('Revisar')}`],
+['OM-1022','Carlos Mendoza','Creatinina sérica','23/10',badge('En proceso','y'),'—'],
+['OM-1023','Ana L. Vargas','Ecocardiograma','22/10',badge('Agendado','b'),'—'],
+['OM-1024','Rosa Limachi','Ecografía obstétrica','22/10',badge('Resultado listo','g'),`${badge('Normal','g')} ${act('Revisar')}`],
+['OM-1025','Jorge Salinas','Rx periapical 36','21/10',badge('Recibido','t'),act('Revisar')]]))}
+${card('Nueva orden',`<div class="field"><label>Tipo</label><select><option>Laboratorio</option><option>Imagenología</option><option>Procedimiento</option></select></div><div class="field"><label>Estudios</label><input value="Hemograma, glucosa, creatinina"></div><div class="field"><label>Indicación clínica</label><textarea rows="2">Control de HTA y función renal</textarea></div><button class="btn" onclick="toast('Demo: orden enviada al laboratorio')">Enviar orden</button>`)}</div>`;
+
+VIEWS.M06=()=>{
+ const ev=[[0,9,1,'Carlos Mendoza','Control HTA','#bfe3ff','#2563eb'],[0,10.5,1,'R. Limachi','Prenatal','#fde4f1','#db2777'],[1,8,1.5,'A. Vargas','ECG','#ccfbf1','#0f766e'],[1,11,1,'J. Salinas','Endodoncia','#fef3c7','#d97706'],[2,9.5,1,'M. Choque','Niño sano','#dcfce7','#16a34a'],[2,14,2,'Procedimiento','Curación','#ede9fe','#7c3aed'],[3,10,1,'L. Torrico','Primera vez','#bfe3ff','#2563eb'],[3,15,1,'Teleconsulta','M09','#ede9fe','#7c3aed'],[4,9,2,'Bloqueo','Capacitación','#e5e7eb','#6b7280'],[4,16,1,'P. Aguilar','Control','#bfe3ff','#2563eb'],[5,9,1,'Sobrecupo','Urgencia','#fee2e2','#dc2626']];
+ const days=['Lun 26','Mar 27','Mié 28','Jue 29','Vie 30','Sáb 31'];
+ return card('Agenda semanal · Dra. Valeria Quispe <span class="row"><select><option>Dra. Quispe</option><option>Dr. Terán</option><option>Dra. Paredes</option></select>'+act('+ Nueva cita','')+'</span>',`<div class="week"><div class="hd"></div>${days.map(d=>`<div class="hd">${d}</div>`).join('')}<div class="hrs">${Array.from({length:10},(_,i)=>`<div>${8+i}:00</div>`).join('')}</div>${days.map((d,di)=>`<div class="col">${ev.filter(e=>e[0]===di).map(e=>`<div class="ap" onclick="toast('Cita: ${e[3]} · ${e[4]}')" style="top:${(e[1]-8)*56}px;height:${e[2]*56-3}px;background:${e[5]};border-color:${e[6]}"><b>${e[3]}</b>${e[4]}</div>`).join('')}</div>`).join('')}</div>`);
+};
+
+VIEWS.M07=()=>{const c=(n,s)=>`<div class="kc"><b>${n}</b><small>${s}</small></div>`;return `<div class="kan"><div class="kcol"><h4>Por llegar ${badge('3','n')}</h4>${c('M. Choque','10:00 · Pediatría')}${c('R. Limachi','10:30 · Ginecología')}${c('J. Salinas','11:00 · Odontología')}</div><div class="kcol"><h4>Check-in ${badge('1','b')}</h4>${c('L. Torrico','Llegó 09:48 · Verificar seguro')}</div><div class="kcol"><h4>Sala de espera ${badge('2','y')}</h4>${c('A. Vargas','Espera 12 min · Dr. Terán')}${c('P. Aguilar','Espera 5 min · Dra. Quispe')}</div><div class="kcol"><h4>En consulta ${badge('2','g')}</h4>${c('C. Mendoza','Consultorio 1 · 18 min')}${c('V. Rivas','Consultorio 3 · 7 min')}</div><div class="kcol"><h4>Alta / cobro ${badge('1','p')}</h4>${c('E. Gutiérrez','Pendiente de cobro · Bs 250')}</div></div><div class="grid g3" style="margin-top:16px">${kpi('Espera promedio','12 min','Meta: 15 min','up')}${kpi('Duración de consulta','24 min','Promedio del día')}${kpi('Pacientes atendidos','17 / 24','Faltan 7')}</div>`};
+
+VIEWS.M08=()=>`<div class="grid g2">${card('Campañas y recordatorios',tbl(['Mensaje','Canal','Destinatarios','Estado'],[['Recordatorio de cita 24 h','WhatsApp','24',badge('Enviado','g')],['Seguimiento posconsulta','SMS','12',badge('Programado','b')],['Control anual de hipertensos','Correo','142',badge('Borrador','n')],['Vacunas pendientes (niños)','WhatsApp','38',badge('Programado','b')]]))}${card('Plantilla de mensaje',`<div class="field"><label>Plantilla</label><select><option>Recordatorio de cita</option><option>Resultado disponible</option><option>Seguimiento posconsulta</option></select></div><div class="field"><label>Mensaje</label><textarea rows="5">Hola {{nombre}}, le recordamos su cita con {{profesional}} el {{fecha}} a las {{hora}} en NEXUS CLINIC. Responda 1 para confirmar o 2 para reprogramar.</textarea></div><button class="btn" onclick="toast('Demo: plantilla guardada')">Guardar plantilla</button>`)}</div>`;
+
+VIEWS.M09=()=>`<div class="grid g21">${card('Sala virtual · Teleconsulta con Lucía Torrico',`<div class="video"><div style="text-align:center"><div style="font-size:42px">👩</div>Paciente conectada<br><small>Conexión cifrada · 00:12:48</small></div><div class="me">Dra. Quispe</div><div class="ctl"><span>🎤</span><span>📷</span><span>🖥</span><span class="end">✕</span></div></div><div class="row" style="margin-top:12px">${badge('Consentimiento de telemedicina firmado','g')} ${badge('Grabación desactivada','n')}</div>`)}${card('Apuntes de la consulta',`<div class="field"><label>Notas (se guardan en la HCE)</label><textarea rows="6">Paciente refiere tos de 5 días sin fiebre. Sin dificultad respiratoria referida.</textarea></div><div class="row"><button class="btn sm" onclick="toast('Demo: nota guardada en la historia clínica')">Guardar en HCE</button><button class="btn sm sec" onclick="go('M03')">Emitir receta</button></div><hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><b>Chat</b><div class="msgs" style="height:110px;margin-top:8px"><div class="m a">Doctora, adjunto la foto de la garganta.</div><div class="m u">Gracias, la reviso.</div></div>`)}</div>`;
+
+VIEWS.M10=()=>`<div class="grid g4" style="margin-bottom:16px">${kpi('Cobrado hoy','Bs 6.480','▲ 8%','up')}${kpi('Efectivo','Bs 2.100','32%')}${kpi('QR / Tarjeta','Bs 4.380','68%')}${kpi('Por cobrar','Bs 1.250','5 cuentas','down')}</div><div class="grid g21">${card('Facturación y cobros',tbl(['Factura','Paciente','Concepto','Monto','Pago','Estado'],[['0001245','C. Mendoza','Consulta general','Bs 200','QR',badge('Pagada','g')],['0001246','A. Vargas','ECG + consulta','Bs 450','Tarjeta',badge('Pagada','g')],['0001247','J. Salinas','Endodoncia (1/3)','Bs 600','Efectivo',badge('Parcial','y')],['0001248','M. Choque','Control niño sano','Bs 180','QR',badge('Pagada','g')],['0001249','R. Limachi','Control prenatal','Bs 250','—',badge('Pendiente','r')]]))}${card('Cobro rápido',`<div class="field"><label>Paciente</label><input value="Rosa Limachi"></div><div class="field"><label>Concepto</label><input value="Control prenatal"></div><div class="field"><label>Método</label><select><option>QR bancario</option><option>Tarjeta</option><option>Efectivo</option></select></div><div class="kv" style="font-size:24px;font-weight:700;margin:8px 0">Bs 250,00</div><button class="btn" onclick="toast('Demo: cobro registrado y factura emitida')">Cobrar y facturar</button> <button class="btn sec" onclick="toast('Demo: arqueo de caja generado')">Arqueo</button>`)}</div>`;
+
+VIEWS.M11=()=>{const it=[['Guantes de látex M','Caja x100',12,30,'15/03/2027'],['Jeringas 5 ml','Caja x50',22,20,'10/08/2028'],['Lidocaína 2%','Frasco',6,10,'30/11/2026'],['Gasas estériles','Paquete x10',48,40,'01/06/2028'],['Tiras reactivas glucosa','Caja x50',9,8,'20/12/2026'],['Resina dental A2','Jeringa',4,6,'05/02/2027']];return card('Existencias '+'<span>'+act('+ Ingreso')+' '+act('Orden de compra')+'</span>',tbl(['Insumo','Presentación','Stock','Mínimo','Nivel','Vence','Estado'],it.map(x=>{const r=x[2]/x[3];return [`<b>${x[0]}</b>`,x[1],x[2],x[3],`<div style="width:110px">${prog(Math.min(100,r*70),r<1?'#dc2626':r<1.3?'#f59e0b':'#16a34a')}</div>`,x[4],r<1?badge('Reponer','r'):r<1.3?badge('Bajo','y'):badge('Normal','g')]})))};
+
+VIEWS.M12=()=>`<div class="grid g3" style="margin-bottom:16px">${kpi('Ingresos del mes','Bs 118.400','▲ 6%','up')}${kpi('Gastos del mes','Bs 71.250','▼ 2%','up')}${kpi('Utilidad operativa','Bs 47.150','40% de margen','up')}</div><div class="grid g2">${card('Ingresos vs. gastos (miles Bs)',bars([98,104,110,112,118],['Jun','Jul','Ago','Sep','Oct'])+bars([66,70,72,73,71],['Jun','Jul','Ago','Sep','Oct'],'#f59e0b',110))}${card('Últimos gastos',tbl(['Fecha','Concepto','Categoría','Monto'],[['22/10','Alquiler del local','Fijo','Bs 9.500'],['21/10','Compra de insumos','Variable','Bs 3.480'],['20/10','Servicios básicos','Fijo','Bs 1.120'],['18/10','Mantenimiento de equipos','Variable','Bs 850'],['15/10','Publicidad digital','Marketing','Bs 700']]))}</div>`;
+
+VIEWS.M13=()=>`<div class="grid g3">${[['VQ','Dra. Valeria Quispe','Medicina general','MP-4821','Lun–Vie 8:00–16:00','35%'],['MT','Dr. Marcelo Terán','Cardiología','MP-3377','Mar–Jue 9:00–17:00','40%'],['LP','Dra. Lucía Paredes','Pediatría','MP-5190','Lun–Sáb 8:00–14:00','35%'],['AF','Dr. Andrés Flores','Odontología','MO-1204','Lun–Vie 9:00–18:00','45%'],['CR','Dra. Camila Rojas','Ginecología','MP-4012','Mié–Sáb 10:00–18:00','40%'],['MV','Lic. Mónica Vega','Enfermería','LE-882','Lun–Sáb 8:00–14:00','—']].map(p=>`<div class="card"><div class="pt-head"><div class="avatar">${p[0]}</div><div><b>${p[1]}</b><br><span style="color:var(--mut)">${p[2]}</span></div></div><div class="kv2"><div><small>Matrícula</small><b>${p[3]}</b></div><div><small>Honorario</small><b>${p[5]}</b></div></div><p style="margin-top:10px;color:var(--mut);font-size:12.5px">🕒 ${p[4]}</p></div>`).join('')}</div>`;
+
+VIEWS.M14=()=>`<div class="grid g4" style="margin-bottom:16px">${kpi('Pacientes nuevos (mes)','126','▲ 11%','up')}${kpi('Retención','78%','▲ 3 pts','up')}${kpi('Ticket promedio','Bs 285','▲ Bs 12','up')}${kpi('Inasistencias','6,4%','▼ 1,2 pts','up')}</div><div class="grid g3">${card('Consultas por especialidad',bars([310,180,140,120,90],['Gral','Cardio','Pedia','Odon','Gine']))}${card('Ingresos por mes (miles Bs)',line([98,104,110,112,118],['Jun','Jul','Ago','Sep','Oct'],'#00b3a4',140,80,130))}${card('Diagnósticos frecuentes',[['I10 Hipertensión',24],['J00 Resfriado común',19],['K02 Caries dental',16],['E11 Diabetes tipo 2',11],['Z34 Control prenatal',9]].map(x=>`<div style="margin-bottom:11px">${x[0]}<span style="float:right;color:var(--mut)">${x[1]}%</span>${prog(x[1]*3.5)}</div>`).join(''))}</div>`;
+
+VIEWS.M15=()=>{const perms=['Ver expediente','Editar HCE','Emitir recetas','Cobrar','Ver reportes','Administrar'];const roles={Médico:[1,1,1,0,1,0],Recepción:[0,0,0,1,0,0],Enfermería:[1,1,0,0,0,0],Administrador:[1,0,0,1,1,1]};return `<div class="grid g21">${card('Matriz de roles y permisos',tbl(['Rol',...perms],Object.entries(roles).map(([r,v])=>[`<b>${r}</b>`,...v.map(x=>`<span class="tg ${x?'on':''}" onclick="this.classList.toggle('on')"></span>`)])))}${card('Parámetros y respaldo',`<div class="field"><label>Nombre del consultorio</label><input value="NEXUS CLINIC"></div><div class="field"><label>Moneda</label><select><option>Boliviano (Bs)</option></select></div><div class="field"><label>Duración de cita por defecto</label><select><option>30 min</option><option>20 min</option></select></div><p>Último respaldo: ${badge('Hoy 03:00 · Correcto','g')}</p><br><button class="btn sm" onclick="toast('Demo: respaldo en curso')">Respaldar ahora</button>`)}</div>`};
+
+VIEWS.M16=()=>`<div class="grid g2"><div><div class="phone"><div class="ph"><small>NEXUS CLINIC</small><h3 style="margin-top:4px">Hola, Carlos 👋</h3><small style="color:#bfd0f0">Portal del paciente</small></div><div class="pb"><div class="pi"><b>Próxima cita</b><br>Lun 26/10 · 09:00<br><small>Dra. Quispe · Medicina general</small></div><div class="pi"><b>Resultado disponible</b><br>Perfil lipídico ${badge('Nuevo','g')}</div><div class="pi"><b>Receta vigente</b><br>Losartán 100 mg · 30 días</div><div class="pi" style="background:var(--teal);color:#fff;text-align:center;cursor:pointer" onclick="toast('Demo: reserva de cita en línea')">Reservar nueva cita</div></div></div></div>${card('Funciones habilitadas para el paciente',`<ul class="ck"><li>Reserva y cancelación de citas</li><li>Consulta de resultados y recetas</li><li>Descarga de certificados</li><li>Pago en línea de consultas</li><li>Mensajería con el consultorio</li><li>Firma de consentimientos</li></ul><p style="color:var(--mut)">El paciente solo ve su información. Cada acceso queda registrado en la bitácora (M18).</p>`)}</div>`;
+
+VIEWS.M17=()=>`<div class="grid g21">${card('Derivaciones',tbl(['Paciente','Origen','Destino','Motivo','Estado'],[['C. Mendoza','Medicina general','Cardiología (Dr. Terán)','Evaluación de riesgo CV',badge('Aceptada','g')],['R. Limachi','Ginecología','Hospital Materno Infantil','Embarazo de alto riesgo',badge('Enviada','b')],['J. Salinas','Odontología','Cirugía maxilofacial','Cordal incluido',badge('Pendiente','y')],['M. Choque','Pediatría','Laboratorio externo','Perfil de hierro',badge('Contrarreferida','p')]]))}${card('Nueva derivación',`<div class="field"><label>Destino</label><select><option>Cardiología</option><option>Hospital de segundo nivel</option><option>Laboratorio</option></select></div><div class="field"><label>Resumen clínico</label><textarea rows="4">Paciente de 45 años con HTA. Solicito evaluación cardiovascular.</textarea></div><button class="btn" onclick="toast('Demo: derivación enviada con resumen clínico')">Enviar derivación</button>`)}</div>`;
+
+VIEWS.M18=()=>`<div class="grid g2">${card('Consentimientos y documentos',tbl(['Documento','Paciente','Estado'],[['Consentimiento informado – Endodoncia','J. Salinas',badge('Firmado','g')],['Consentimiento de telemedicina','L. Torrico',badge('Firmado','g')],['Autorización de tratamiento de datos','R. Limachi',badge('Pendiente','y')],['Consentimiento – Curación avanzada','P. Aguilar',badge('Pendiente','y')]])+`<br><button class="btn sm" onclick="toast('Demo: consentimiento enviado a firma digital')">Enviar a firma</button>`)}${card('Bitácora de auditoría',tbl(['Hora','Usuario','Acción','Registro'],[['16:02','vquispe','Lectura','HC 000482'],['15:58','vquispe','Edición','HC 000482 · Plan'],['15:40','recepcion1','Lectura','Agenda'],['15:12','admin','Cambio de rol','Usuario recepcion2'],['14:55','mterán','Impresión','Receta RX-2208']]))}</div>`;
+
+/* odontograma */
+const ESTADOS=[['Sano','#ffffff'],['Caries','#f87171'],['Obturado','#60a5fa'],['Endodoncia','#fbbf24'],['Corona','#a78bfa'],['Ausente','#cbd5e1']];
+const TEETH={};
+VIEWS.M19=()=>{
+ const up=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28],lo=[48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+ [...up,...lo].forEach(n=>TEETH[n]=0);TEETH[36]=3;TEETH[16]=2;TEETH[26]=1;TEETH[48]=5;
+ const row=(a,y)=>a.map((n,i)=>`<g class="tooth" onclick="cycleTooth(${n})" transform="translate(${i*40+10},${y})"><rect id="t${n}" width="34" height="38" rx="8" fill="${ESTADOS[TEETH[n]][1]}"/><text x="17" y="24">${n}</text></g>`).join('');
+ return `<div class="grid g21">${card('Odontograma · Jorge Salinas Peña (clic en cada pieza para cambiar su estado)',`<svg viewBox="0 0 650 130" width="100%">${row(up,8)}${row(lo,80)}<line x1="0" x2="650" y1="62" y2="62" stroke="#cbd5e1" stroke-dasharray="4"/></svg><div class="legend">${ESTADOS.map(e=>`<span><i style="background:${e[1]}"></i>${e[0]}</span>`).join('')}</div>`)}${card('Presupuesto de tratamiento',`<div id="presu"></div><button class="btn sm" style="margin-top:10px" onclick="toast('Demo: presupuesto enviado al paciente')">Enviar presupuesto</button>`)}</div><div style="margin-top:16px">${card('Evolución',`<div class="tl"><div><b>21/10</b> · Endodoncia pieza 36 (sesión 1)<br><small>Apertura cameral y conductometría</small></div><div><b>14/10</b> · Diagnóstico pieza 36<br><small>Pulpitis irreversible · Rx periapical</small></div><div><b>02/10</b> · Obturación pieza 16<br><small>Resina compuesta A2</small></div></div>`)}</div>`;
+};
+INIT.M19=()=>updPresu();
+const PRECIOS={1:['Obturación',250],2:['—',0],3:['Endodoncia',900],4:['Corona',1400],5:['Implante / prótesis',0]};
+window.cycleTooth=n=>{TEETH[n]=(TEETH[n]+1)%ESTADOS.length;$('#t'+n).setAttribute('fill',ESTADOS[TEETH[n]][1]);updPresu()};
+function updPresu(){const map={1:['Obturación (caries)',250],3:['Endodoncia',900],4:['Corona',1400]};let tot=0,rows=[];Object.entries(TEETH).forEach(([n,e])=>{if(map[e]){rows.push([`Pieza ${n}`,map[e][0],`Bs ${map[e][1]}`]);tot+=map[e][1]}});$('#presu').innerHTML=tbl(['Pieza','Tratamiento','Costo'],rows)+`<div style="text-align:right;font-size:18px;font-weight:700;margin-top:10px">Total: Bs ${tot.toLocaleString('es-BO')}</div>`}
+
+VIEWS.M20=()=>{
+ const m=[0,3,6,9,12,18,24],p3=[2.5,5,6.4,7.1,7.7,8.6,9.7],p50=[3.3,6,7.9,9.2,10.2,11.5,12.7],p97=[4.4,7.6,9.8,11.4,12.6,14.2,15.5],pt=[[0,3.4],[3,6.2],[6,8.1],[9,9.6],[12,10.5],[15,11.2]];
+ const X=v=>50+v/24*560,Y=v=>260-(v-2)/14*240;const P=a=>a.map((v,i)=>X(m[i])+','+Y(v)).join(' ');
+ return `<div class="grid g21">${card('Curva de peso para la edad · Mateo Choque (2 años)',`<svg viewBox="0 0 650 290" width="100%"><g stroke="#eef2f8">${[4,6,8,10,12,14,16].map(v=>`<line x1="50" x2="610" y1="${Y(v)}" y2="${Y(v)}"/><text x="40" y="${Y(v)+3}" font-size="10" fill="#6b7a96" text-anchor="end" stroke="none">${v}</text>`).join('')}</g>${m.map(v=>`<text x="${X(v)}" y="280" font-size="10" fill="#6b7a96" text-anchor="middle">${v}m</text>`).join('')}<polyline points="${P(p97)}" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="5"/><polyline points="${P(p50)}" fill="none" stroke="#16a34a" stroke-width="2"/><polyline points="${P(p3)}" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="5"/><polyline points="${pt.map(q=>X(q[0])+','+Y(q[1])).join(' ')}" fill="none" stroke="#2563eb" stroke-width="3"/>${pt.map(q=>`<circle cx="${X(q[0])}" cy="${Y(q[1])}" r="4.5" fill="#2563eb"/>`).join('')}<text x="615" y="${Y(15.5)}" font-size="10" fill="#b45309">P97</text><text x="615" y="${Y(12.7)}" font-size="10" fill="#15803d">P50</text><text x="615" y="${Y(9.7)}" font-size="10" fill="#b45309">P3</text></svg><p style="font-size:11.5px;color:var(--mut)">Valores de referencia ilustrativos para la demostración. En producción se configuran las curvas oficiales vigentes.</p>`)}${card('Controles y vacunas',`<div class="kv2" style="margin:0 0 12px"><div><small>Peso</small><b>11,2 kg</b></div><div><small>Talla</small><b>85 cm</b></div></div>${tbl(['Esquema','Estado'],[['Pentavalente (3 dosis)',badge('Completo','g')],['Polio (3 dosis)',badge('Completo','g')],['SRP 12 meses',badge('Completo','g')],['Refuerzo 18 meses',badge('Vence en 15 días','y')]])}`)}</div>`};
+
+VIEWS.M21=()=>`<div class="grid g2">${card('Antecedentes gineco-obstétricos · Rosa Limachi',`<div class="kv2" style="margin-top:0"><div><small>Gestas</small><b>G2 P1 C0 A0</b></div><div><small>FUM</small><b>08/05/2026</b></div><div><small>Edad gestacional</small><b>24 sem + 2 d</b></div><div><small>FPP</small><b>12/02/2027</b></div></div><br>${badge('Riesgo bajo','g')} ${badge('Grupo A+','t')}`)}${card('Controles prenatales',tbl(['Control','Fecha','PA','Peso','AU','FCF'],[['1','15/07','110/70','61 kg','—','—'],['2','12/08','110/70','62,5','14 cm','—'],['3','10/09','112/72','64 kg','20 cm','148'],['4','23/10','115/75','66 kg','24 cm','146']])+`<br>${act('+ Nuevo control','')}`)}</div>`;
+
+VIEWS.M22=()=>`<div class="grid g2">${card('Escala de riesgo cardiovascular · Calculadora',`<div class="grid g2"><div class="field"><label>Edad</label><input id="rEd" type="number" value="45"></div><div class="field"><label>Presión sistólica</label><input id="rPa" type="number" value="148"></div><div class="field"><label>Colesterol total (mg/dl)</label><input id="rCol" type="number" value="240"></div><div class="field"><label>Fumador</label><select id="rFu"><option value="0">No</option><option value="1">Sí</option></select></div></div><button class="btn" onclick="calcRisk()">Calcular puntaje</button><div id="rRes" style="margin-top:12px"></div><p style="font-size:11.5px;color:var(--mut);margin-top:8px">Cálculo simplificado, solo para la demo. No sustituye las escalas validadas.</p>`)}${card('Protocolos y formularios por especialidad',`<ul class="ck"><li>Cardiología: ECG, ecocardiograma, riesgo CV</li><li>Endocrinología: control de diabetes, HbA1c</li><li>Neurología: escalas de cefalea y deterioro cognitivo</li><li>Dermatología: mapeo y fotografía clínica</li><li>Traumatología: escalas de dolor y funcionalidad</li></ul>`)}</div>`;
+window.calcRisk=()=>{let s=0;const e=+$('#rEd').value,p=+$('#rPa').value,c=+$('#rCol').value,f=+$('#rFu').value;s+=e>=60?3:e>=45?2:e>=35?1:0;s+=p>=160?3:p>=140?2:p>=130?1:0;s+=c>=240?2:c>=200?1:0;s+=f?2:0;const r=s>=7?['Riesgo alto','r']:s>=4?['Riesgo moderado','y']:['Riesgo bajo','g'];$('#rRes').innerHTML=`${badge(r[0]+' · puntaje '+s,r[1])}`};
+
+VIEWS.M23=()=>`<div class="grid g21">${card('Procedimientos programados',tbl(['Fecha','Paciente','Procedimiento','Sala','Estado'],[['28/10 14:00','P. Aguilar','Curación avanzada de úlcera','Sala 2',badge('Programado','b')],['28/10 16:00','V. Rivas','Retiro de puntos','Sala 2',badge('Preparado','g')],['29/10 10:00','E. Gutiérrez','Sutura simple','Sala 1',badge('Programado','b')],['30/10 09:00','C. Zeballos','Infiltración articular','Sala 1',badge('Falta consentimiento','y')]]))}${card('Checklist e insumos · Curación avanzada',`<ul class="ck"><li>Consentimiento firmado</li><li>Material estéril verificado</li><li>Insumos reservados en inventario</li></ul><div style="color:var(--mut);font-size:12.5px">Gasas estériles ×6 · Solución salina ×1 · Apósito hidrocoloide ×2 · Guantes estériles ×2</div><br><button class="btn sm" onclick="toast('Demo: insumos descontados del inventario')">Registrar y descontar insumos</button>`)}</div>`;
+
+VIEWS.M24=()=>`<div class="grid g2">${card('Generar documento',`<div class="field"><label>Plantilla</label><select id="plt" onchange="prevCert()"><option value="0">Certificado médico</option><option value="1">Constancia de atención</option><option value="2">Informe clínico</option></select></div><div class="field"><label>Días de reposo</label><input id="dias" type="number" value="3" oninput="prevCert()"></div><button class="btn" onclick="toast('Demo: documento emitido con QR de validación')">Emitir con firma y QR</button> <button class="btn sec" onclick="window.print()">Imprimir</button>`)}${card('Vista previa',`<div id="cert" style="border:1px solid var(--line);border-radius:10px;padding:22px;background:#fff;font-family:Georgia,serif;font-size:13px;line-height:1.6"></div>`)}</div>`;
+INIT.M24=()=>prevCert();
+window.prevCert=()=>{const t=+$('#plt').value,d=$('#dias').value;const h=['CERTIFICADO MÉDICO','CONSTANCIA DE ATENCIÓN','INFORME CLÍNICO'][t];const b=[`Certifico que el paciente <b>Carlos Mendoza Rojas</b>, CI 4567890 LP, fue evaluado en esta fecha y requiere <b>${d} día(s)</b> de reposo por motivos de salud.`,`Se deja constancia de que <b>Carlos Mendoza Rojas</b> fue atendido en consulta externa el día de hoy.`,`Paciente de 45 años con hipertensión arterial esencial (I10). Presión arterial 148/94 mmHg. Se ajusta tratamiento y se solicitan estudios de control.`][t];$('#cert').innerHTML=`<div style="text-align:center;color:#0a1a38"><b style="letter-spacing:.12em">NEXUS CLINIC</b><br><small>NEXUS INFINITY CORPORATION</small></div><hr style="margin:10px 0;border:0;border-top:2px solid var(--teal)"><h4 style="text-align:center;margin-bottom:12px">${h}</h4><p>${b}</p><p style="margin-top:30px;text-align:right">Dra. Valeria Quispe · MP-4821<br><small>Firma electrónica · QR de validación</small></p>`};
+
+VIEWS.M25=()=>`<div class="grid g21">${card('Mediciones recibidas (pendientes de validación)',tbl(['Dispositivo','Paciente','Medición','Hora','Acción'],[['Tensiómetro Omron','C. Mendoza','148/94 mmHg · FC 78','09:04',`<button class="btn sm" onclick="this.outerHTML='${'✔ Importado'}'">Importar a HCE</button>`],['Oxímetro de pulso','A. Vargas','SpO₂ 98% · FC 72','09:31',`<button class="btn sm" onclick="this.outerHTML='✔ Importado'">Importar a HCE</button>`],['Balanza clínica','M. Choque','11,2 kg','10:02',`<button class="btn sm" onclick="this.outerHTML='✔ Importado'">Importar a HCE</button>`],['Glucómetro','V. Rivas','Glucosa 212 mg/dl ⚠','10:20',`<button class="btn sm" onclick="this.outerHTML='✔ Importado'">Importar a HCE</button>`]]))}${card('Equipos conectados',`<div style="display:grid;gap:10px">${[['Tensiómetro Omron','Bluetooth'],['Oxímetro','Bluetooth'],['Balanza clínica','USB'],['Glucómetro','Bluetooth'],['ECG portátil','Wi-Fi']].map(d=>`<div class="row" style="justify-content:space-between"><span>${d[0]} <small style="color:var(--mut)">· ${d[1]}</small></span>${badge('Conectado','g')}</div>`).join('')}</div><p style="font-size:12px;color:var(--mut);margin-top:10px">Toda medición se valida por el profesional antes de incorporarse al expediente.</p>`)}</div>`;
+
+VIEWS.M26=()=>`<div class="grid g3">${[['Sede Central · La Paz','Activa',38,142,'Bs 62.400'],['Sede Sur · Calacoto','Activa',24,96,'Bs 38.200'],['Sede Santa Cruz','En implementación',12,41,'Bs 17.800']].map(s=>`<div class="card"><h3>${s[0]} ${badge(s[1],s[1]==='Activa'?'g':'y')}</h3><div class="kv2"><div><small>Citas hoy</small><b>${s[2]}</b></div><div><small>Pacientes mes</small><b>${s[3]}</b></div><div><small>Ingresos mes</small><b>${s[4]}</b></div></div></div>`).join('')}</div><div class="grid g2" style="margin-top:16px">${card('Recursos compartidos',tbl(['Recurso','Sedes','Regla'],[['Catálogo de servicios y precios','Todas','Centralizado'],['Dr. Terán (Cardiología)','Central y Sur','Agenda compartida'],['Inventario','Por sede','Traslados autorizados'],['Expediente del paciente','Todas','Acceso por consentimiento']]))}${card('Consolidado autorizado (miles Bs)',bars([62.4,38.2,17.8],['Central','Sur','Santa Cruz'],'#2563eb'))}</div>`;
+
+VIEWS.M27=()=>`<div class="grid g3">${[['Básico','Bs 290','1 profesional · 1 sede',['M01–M08','Agenda y HCE','Soporte por correo'],''],['Profesional','Bs 790','Hasta 5 profesionales · 2 sedes',['Todos los módulos base (M01–M18)','Portal del paciente','Agente de citas y de atención'],'hl'],['Corporativo','Bs 2.400','Ilimitado · multisucursal',['28 módulos','7 agentes de IA','Integraciones y API','Soporte prioritario'],'']].map(p=>`<div class="card plan ${p[4]}"><h3>${p[0]} ${p[4]?badge('Más elegido','t'):''}</h3><div class="price">${p[1]}<small> /mes</small></div><p style="color:var(--mut)">${p[2]}</p><ul class="ck">${p[3].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div><div style="margin-top:16px">${card('Clientes suscritos',tbl(['Cliente','Plan','Uso','Próxima factura','Estado'],[['Consultorio Salud Andina','Profesional','3 / 5 prof.','01/11/2026',badge('Al día','g')],['Clínica Dental Sonrisa','Básico','1 / 1 prof.','05/11/2026',badge('Al día','g')],['Centro Médico Illimani','Corporativo','12 prof.','10/11/2026',badge('Al día','g')],['Pediatría Integral','Profesional','4 / 5 prof.','12/11/2026',badge('Vencida','r')]]))}</div>`;
+
+VIEWS.M28=()=>`<div class="grid g3">${[['Laboratorio clínico','Resultados e importación de órdenes','Conectado'],['Sistema contable','Exportación de asientos y facturas','Conectado'],['WhatsApp Business','Recordatorios y campañas','Conectado'],['Pasarela de pagos / QR','Cobros en línea','Conectado'],['Facturación electrónica','Emisión de facturas','Conectado'],['API pública autorizada','Integración con terceros','Configurar']].map(i=>`<div class="card"><h3>${i[0]} ${badge(i[2],i[2]==='Conectado'?'g':'y')}</h3><p style="color:var(--mut);margin-bottom:12px">${i[1]}</p>${act(i[2]==='Conectado'?'Gestionar':'Configurar')}</div>`).join('')}</div>`;
+
+/* ===== capa de IA ===== */
+const AG=[
+['orq','Orquestador de IA','🧭','#ede9fe','Clasifica solicitudes, verifica permisos y dirige tareas a los agentes autorizados.'],
+['citas','Agente de citas','📅','#dbeafe','Reserva, confirma y reprograma según disponibilidad.'],
+['doc','Agente de documentación','📝','#ccfbf1','Transcribe y prepara borradores clínicos.'],
+['aten','Agente de atención','💬','#fef3c7','Resuelve consultas administrativas y deriva las clínicas.'],
+['ana','Agente analítico','📊','#dcfce7','Calcula indicadores y genera reportes verificables.'],
+['cli','Asistente clínico','🩺','#fce7f3','Organiza antecedentes y sugiere información relevante.'],
+['seg','Agente de seguridad','🛡️','#fee2e2','Detecta anomalías y genera alertas para revisión.']
+];
+const PERM={Médico:['citas','doc','ana','cli'],Recepción:['citas','aten'],Administrador:['citas','aten','ana','seg']};
+function iaView(){
+ return `<div class="hero"><div style="flex:1"><h2>Capa de inteligencia artificial</h2><p>Todas las solicitudes pasan por el orquestador, que verifica el rol del usuario antes de asignarlas a un agente. Los agentes preparan borradores y sugerencias: la decisión clínica es siempre del profesional.</p></div></div>
+ <div class="grid g12"><div class="card"><h3>Agentes</h3><div style="display:grid;gap:14px">${AG.map(a=>`<div class="agent"><div class="ic" style="background:${a[3]}">${a[2]}</div><div style="flex:1"><b>${a[1]}</b> ${a[0]==='orq'?badge('Siempre activo','p'):PERM[state.role].includes(a[0])?badge('Autorizado','g'):badge('Sin permiso','n')}<p>${a[4]}</p></div></div>`).join('')}</div></div>
+ <div class="card"><h3>Probar el orquestador <span>${badge('Rol: '+state.role,'p')}</span></h3><div class="chat"><div class="msgs" id="msgs"></div><div class="row" style="margin-top:10px"><input id="q" style="flex:1" placeholder="Ej.: reprogramar la cita de Carlos para el jueves" onkeydown="if(event.key==='Enter')ask()"><button class="btn" onclick="ask()">Enviar</button></div><div class="row" style="margin-top:8px">${['Reservar cita con Dra. Paredes','Preparar borrador de la nota SOAP','¿Cuánto cuesta una consulta?','Reporte de ingresos del mes','Resumir antecedentes de Carlos','Revisar accesos sospechosos'].map(s=>`<button class="btn sec sm" onclick="$('#q').value='${s}';ask()">${s}</button>`).join('')}</div></div></div></div>
+ <div class="disc">Demostración con respuestas simuladas · NEXUS INFINITY CORPORATION</div>`;
+}
+function initIA(){addMsg('a','Hola, soy el orquestador de Nexus Clinic. Cuéntame qué necesitas y lo dirijo al agente autorizado para tu rol.')}
+function addMsg(t,h){const m=$('#msgs');m.insertAdjacentHTML('beforeend',`<div class="m ${t}">${h}</div>`);m.scrollTop=m.scrollHeight}
+const RESP={
+citas:'Revisé la disponibilidad: la Dra. Paredes tiene espacio el <b>jueves 29/10 a las 10:00</b> y el <b>viernes 30/10 a las 09:30</b>. ¿Cuál confirmo? Enviaré el recordatorio por WhatsApp al paciente.',
+doc:'Preparé un <b>borrador SOAP</b> a partir del audio de la consulta: motivo de control de PA, PA 148/94, plan de ajustar losartán a 100 mg. Queda en estado <i>borrador</i> hasta que el médico lo revise y lo firme.',
+aten:'Una consulta de medicina general cuesta <b>Bs 200</b> y se atiende de lunes a sábado. Aceptamos QR, tarjeta y efectivo. Si necesitas orientación clínica, te derivo con el profesional.',
+ana:'Ingresos de octubre: <b>Bs 118.400</b> (▲ 6% vs. septiembre). Consultas: 312. Ocupación de agenda: 87%. El reporte incluye la consulta de origen de cada cifra para su verificación.',
+cli:'Resumen de <b>Carlos Mendoza</b>: HTA desde marzo 2026, alergia a penicilina, LDL 168 mg/dl en el último perfil. Información para apoyo del médico; no constituye un diagnóstico.',
+seg:'Detecté 3 intentos fallidos de acceso a <b>recepcion2</b> y un intento de exportación fuera de horario. Generé una alerta para el administrador. No se bloqueó ninguna cuenta automáticamente.'
+};
+function classify(t){t=t.toLowerCase();if(/cita|agenda|reprogram|reserv|turno/.test(t))return 'citas';if(/nota|soap|borrador|transcrib|evoluci/.test(t))return 'doc';if(/reporte|indicador|ingreso|kpi|estad/.test(t))return 'ana';if(/antecedente|alergia|historial|resum/.test(t))return 'cli';if(/acceso|sospech|anomal|seguridad|alerta/.test(t))return 'seg';return 'aten'}
+function ask(){
+ const i=$('#q'),t=i.value.trim();if(!t)return;i.value='';addMsg('u',t);
+ const k=classify(t),ag=AG.find(a=>a[0]===k),ok=PERM[state.role].includes(k);
+ setTimeout(()=>addMsg('tr',`orquestador → intención: ${ag[1]}<br>verificando permisos de rol "${state.role}" … ${ok?'AUTORIZADO':'DENEGADO'}`),300);
+ setTimeout(()=>addMsg('a',ok?`<b>${ag[2]} ${ag[1]}</b><br>${RESP[k]}`:`Esta solicitud corresponde al <b>${ag[1]}</b>, pero tu rol (<b>${state.role}</b>) no tiene permiso. Cambia de rol en la barra superior o solicita autorización al administrador.`),900);
+}
+
+buildNav();go('HOME');
+</script>
+</body>
+</html>
